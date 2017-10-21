@@ -100,8 +100,257 @@ bool ModuleSceneIntro::Start()
 		33, 375,
 		67, 351
 	};
+	int SkateparkMap2[24] = {
+		102, 653,
+		113, 703,
+		145, 753,
+		177, 784,
+		198, 802,
+		208, 812,
+		221, 805,
+		209, 784,
+		180, 768,
+		149, 748,
+		117, 700,
+		108, 655
+	};
+	int SkateparkMap3[30] = {
+		480, 652,
+		475, 680,
+		462, 713,
+		440, 740,
+		412, 761,
+		378, 779,
+		366, 792,
+		361, 803,
+		375, 809,
+		393, 798,
+		422, 771,
+		452, 740,
+		467, 714,
+		474, 691,
+		484, 656
+	};
+	int SkateparkMap4[22] = {
+		91, 795,
+		107, 833,
+		141, 863,
+		183, 880,
+		224, 881,
+		233, 854,
+		195, 848,
+		150, 816,
+		122, 786,
+		107, 763,
+		93, 779
+	};
+	int SkateparkMap5[22] = {
+		353, 850,
+		350, 876,
+		402, 877,
+		446, 858,
+		480, 830,
+		493, 800,
+		484, 764,
+		466, 780,
+		442, 809,
+		416, 833,
+		386, 846
+	};
+	int SkateparkMap6[8] = {
+		167, 641,
+		166, 685,
+		178, 698,
+		205, 700
+	};
+	int SkateparkMap7[8] = {
+		380, 702,
+		400, 701,
+		419, 688,
+		420, 643
+	};
+	int SkateparkMap8[22] = {
+		338, 541,
+		373, 521,
+		406, 520,
+		432, 535,
+		445, 555,
+		453, 588,
+		441, 563,
+		427, 540,
+		405, 525,
+		376, 525,
+		343, 543
+	};
+	int SkateparkMap9[26] = {
+		225, 507,
+		171, 441,
+		137, 417,
+		107, 408,
+		78, 419,
+		55, 452,
+		61, 429,
+		92, 405,
+		121, 402,
+		148, 414,
+		175, 436,
+		196, 458,
+		228, 500
+	};
+	int SkateparkMap10[20] = {
+		339, 371,
+		365, 381,
+		387, 395,
+		402, 412,
+		408, 431,
+		416, 432,
+		410, 411,
+		397, 392,
+		374, 377,
+		348, 367
+	};
+	int SkateparkMap11[8] = {
+		239, 560,
+		244, 582,
+		252, 583,
+		248, 556
+	};
+	int SkateparkMap12[26] = {
+		516, 278,
+		527, 247,
+		527, 208,
+		514, 170,
+		489, 134,
+		456, 95,
+		457, 90,
+		487, 119,
+		515, 158,
+		529, 196,
+		535, 225,
+		532, 252,
+		523, 281
+	};
+	int SkateparkMap13[20] = {
+		369, 124,
+		371, 155,
+		384, 180,
+		408, 194,
+		436, 197,
+		436, 190,
+		403, 180,
+		383, 163,
+		376, 136,
+		375, 124
+	};
 
+	int SkateparkMap14[22] = {
+		358, 102,
+		349, 94,
+		335, 102,
+		317, 103,
+		279, 112,
+		280, 119,
+		317, 117,
+		336, 112,
+		343, 116,
+		354, 115,
+		358, 109
+	};
+	int SkateparkMap15[12] = {
+		201, 41,
+		222, 32,
+		308, 31,
+		326, 37,
+		317, 46,
+		211, 49
+	};
+	int SkateparkMap16[8] = {
+		47, 197,
+		71, 239,
+		82, 230,
+		60, 190
+	};
+
+	int SkateparkMap17[16] = {
+		564, 618,
+		564, 526,
+		552, 526,
+		552, 517,
+		583, 517,
+		583, 526,
+		573, 526,
+		573, 618
+	};
+	int SkateparkFlipperDL[18] = {
+		213, 785,
+		203, 791,
+		200, 801,
+		202, 810,
+		212, 815,
+		270, 806,
+		277, 804,
+		277, 797,
+		225, 787
+	};
+	int SkateparkFlipperDR[18] = {
+		306, 797,
+		368, 785,
+		379, 790,
+		383, 799,
+		380, 810,
+		372, 813,
+		356, 812,
+		314, 806,
+		307, 803
+	};
+	int SkateparkFlipperTL[18] = {
+		97, 340,
+		46, 316,
+		37, 306,
+		38, 293,
+		51, 287,
+		62, 293,
+		80, 311,
+		104, 335,
+		102, 340
+	};
+	int SkateparkFlipperTR[16] = {
+		480, 440,
+		424, 473,
+		425, 478,
+		431, 479,
+		486, 468,
+		497, 460,
+		498, 452,
+		491, 440
+	};
 	App->physics->CreateChain(0, 0, SkateparkMap, 88, b2_staticBody);
+	App->physics->CreateChain(0, 0, SkateparkMap2, 24, b2_staticBody);
+	App->physics->CreateChain(0, 0, SkateparkMap3, 30, b2_staticBody);
+	App->physics->CreateChain(0, 0, SkateparkMap4, 20, b2_staticBody);
+	App->physics->CreateChain(0, 0, SkateparkMap5, 22, b2_staticBody);
+	App->physics->CreateChain(0, 0, SkateparkMap6, 8, b2_staticBody);
+	App->physics->CreateChain(0, 0, SkateparkMap7, 8, b2_staticBody);
+	App->physics->CreateChain(0, 0, SkateparkMap8, 22, b2_staticBody);
+	App->physics->CreateChain(0, 0, SkateparkMap9, 26, b2_staticBody);
+	App->physics->CreateChain(0, 0, SkateparkMap10, 20, b2_staticBody);
+	App->physics->CreateChain(0, 0, SkateparkMap11, 8, b2_staticBody);
+	App->physics->CreateChain(0, 0, SkateparkMap12, 26, b2_staticBody);
+	App->physics->CreateChain(0, 0, SkateparkMap13, 20, b2_staticBody);
+	App->physics->CreateChain(0, 0, SkateparkMap14, 22, b2_staticBody);
+	App->physics->CreateChain(0, 0, SkateparkMap15, 12, b2_staticBody);
+	App->physics->CreateChain(0, 0, SkateparkMap16, 8, b2_staticBody);
+	App->physics->CreateChain(0, 0, SkateparkMap17, 16, b2_staticBody);
+	App->physics->CreateChain(0, 0, SkateparkFlipperDL, 18, b2_staticBody);
+	App->physics->CreateChain(0, 0, SkateparkFlipperDR, 18, b2_staticBody);
+	App->physics->CreateChain(0, 0, SkateparkFlipperTL, 18, b2_staticBody);
+	App->physics->CreateChain(0, 0, SkateparkFlipperTR, 16, b2_staticBody);
+	App->physics->CreateCircle(388, 577, 28,b2_staticBody);
+	App->physics->CreateCircle(106, 465, 28, b2_staticBody);
+	App->physics->CreateCircle(346, 444, 18, b2_staticBody);
+	App->physics->CreateCircle(479, 252, 18, b2_staticBody);
+	App->physics->CreateCircle(448, 151, 14, b2_staticBody);
+	App->physics->CreateCircle(420, 124, 14, b2_staticBody);
 
 	//b2ChainShape pinball;
 	//
@@ -148,7 +397,7 @@ update_status ModuleSceneIntro::Update()
 
 	if(App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
-		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 25));
+		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 25, b2_dynamicBody));
 		circles.getLast()->data->listener = this;
 	}
 
