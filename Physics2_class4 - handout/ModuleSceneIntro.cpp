@@ -341,7 +341,7 @@ bool ModuleSceneIntro::Start()
 	App->physics->CreateChain(0, 0, SkateparkMap15, 12, b2_staticBody);
 	App->physics->CreateChain(0, 0, SkateparkMap16, 8, b2_staticBody);
 	App->physics->CreateChain(0, 0, SkateparkMap17, 16, b2_staticBody);
-	App->physics->CreateChain(0, 0, SkateparkFlipperDL, 18, b2_staticBody);
+	App->physics->CreateChain(0, 0, SkateparkFlipperDL, 18, b2_staticBody);//D= down, T=top, R=right, L=left.
 	App->physics->CreateChain(0, 0, SkateparkFlipperDR, 18, b2_staticBody);
 	App->physics->CreateChain(0, 0, SkateparkFlipperTL, 18, b2_staticBody);
 	App->physics->CreateChain(0, 0, SkateparkFlipperTR, 16, b2_staticBody);
