@@ -69,6 +69,8 @@ struct b2BodyDef
 		gravityScale = 1.0f;
 	}
 
+	
+
 	/// The body type: static, kinematic, or dynamic.
 	/// Note: if a dynamic body would have zero mass, the mass is set to one.
 	b2BodyType type;
@@ -126,6 +128,9 @@ struct b2BodyDef
 class b2Body
 {
 public:
+
+	
+
 	/// Creates a fixture and attach it to this body. Use this function if you need
 	/// to set some fixture parameters, like friction. Otherwise you can create the
 	/// fixture directly from a shape.
@@ -464,6 +469,8 @@ private:
 	float32 m_sleepTime;
 
 	void* m_userData;
+
+	
 };
 
 inline b2BodyType b2Body::GetType() const

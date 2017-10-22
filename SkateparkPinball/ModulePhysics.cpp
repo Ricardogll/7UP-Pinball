@@ -141,16 +141,19 @@ update_status ModulePhysics::PreUpdate()
 	return UPDATE_CONTINUE;
 }
 
-PhysBody* ModulePhysics::CreateCircle(int x, int y, int radius, b2BodyType type)
+PhysBody* ModulePhysics::CreateCircle(int x, int y, int radius, b2BodyType type, COLL_TYPE collider_type)
 {
 	b2BodyDef body;
 	body.type = type;
 	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
+	
+	
 
 	b2Body* b = world->CreateBody(&body);
 
 	b2CircleShape shape;
 	shape.m_radius = PIXEL_TO_METERS(radius);
+	
 	b2FixtureDef fixture;
 	fixture.shape = &shape;
 	fixture.density = 1.0f;
@@ -158,6 +161,7 @@ PhysBody* ModulePhysics::CreateCircle(int x, int y, int radius, b2BodyType type)
 	b->CreateFixture(&fixture);
 
 	PhysBody* pbody = new PhysBody();
+	pbody->coll = collider_type;
 	pbody->body = b;
 	b->SetUserData(pbody);
 	pbody->width = pbody->height = radius;
@@ -165,9 +169,10 @@ PhysBody* ModulePhysics::CreateCircle(int x, int y, int radius, b2BodyType type)
 	return pbody;
 }
 
-PhysBody* ModulePhysics::CreateRectangle(int x, int y, int width, int height)
+PhysBody* ModulePhysics::CreateRectangle(int x, int y, int width, int height, b2BodyType type, COLL_TYPE collider_type)
 {
 	b2BodyDef body;
+	body.type = type;
 	body.type = b2_dynamicBody;
 	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
 
@@ -186,6 +191,7 @@ PhysBody* ModulePhysics::CreateRectangle(int x, int y, int width, int height)
 	b->SetUserData(pbody);
 	pbody->width = width * 0.5f;
 	pbody->height = height * 0.5f;
+	pbody->coll = collider_type;
 
 	return pbody;
 }
@@ -217,11 +223,12 @@ PhysBody* ModulePhysics::CreateRectangleSensor(int x, int y, int width, int heig
 	return pbody;
 }
 
-PhysBody* ModulePhysics::CreateChain(int x, int y, int* points, int size, b2BodyType value)
+PhysBody* ModulePhysics::CreateChain(int x, int y, int* points, int size, b2BodyType type, COLL_TYPE collider_type)
 {
 	b2BodyDef body;
-	body.type = value;
+	body.type = type;
 	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
+	
 
 	b2Body* b = world->CreateBody(&body);
 
@@ -247,6 +254,7 @@ PhysBody* ModulePhysics::CreateChain(int x, int y, int* points, int size, b2Body
 	pbody->body = b;
 	b->SetUserData(pbody);
 	pbody->width = pbody->height = 0;
+	pbody->coll = collider_type;
 
 	return pbody;
 }

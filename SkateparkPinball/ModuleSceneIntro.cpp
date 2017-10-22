@@ -324,33 +324,35 @@ bool ModuleSceneIntro::Start()
 		498, 452,
 		491, 440
 	};
-	App->physics->CreateChain(0, 0, SkateparkMap, 88, b2_staticBody);
-	App->physics->CreateChain(0, 0, SkateparkMap2, 24, b2_staticBody);
-	App->physics->CreateChain(0, 0, SkateparkMap3, 30, b2_staticBody);
-	App->physics->CreateChain(0, 0, SkateparkMap4, 20, b2_staticBody);
-	App->physics->CreateChain(0, 0, SkateparkMap5, 22, b2_staticBody);
-	App->physics->CreateChain(0, 0, SkateparkMap6, 8, b2_staticBody);
-	App->physics->CreateChain(0, 0, SkateparkMap7, 8, b2_staticBody);
-	App->physics->CreateChain(0, 0, SkateparkMap8, 22, b2_staticBody);
-	App->physics->CreateChain(0, 0, SkateparkMap9, 26, b2_staticBody);
-	App->physics->CreateChain(0, 0, SkateparkMap10, 20, b2_staticBody);
-	App->physics->CreateChain(0, 0, SkateparkMap11, 8, b2_staticBody);
-	App->physics->CreateChain(0, 0, SkateparkMap12, 26, b2_staticBody);
-	App->physics->CreateChain(0, 0, SkateparkMap13, 20, b2_staticBody);
-	App->physics->CreateChain(0, 0, SkateparkMap14, 22, b2_staticBody);
-	App->physics->CreateChain(0, 0, SkateparkMap15, 12, b2_staticBody);
-	App->physics->CreateChain(0, 0, SkateparkMap16, 8, b2_staticBody);
-	App->physics->CreateChain(0, 0, SkateparkMap17, 16, b2_staticBody);
-	App->physics->CreateChain(0, 0, SkateparkFlipperDL, 18, b2_staticBody);//D= down, T=top, R=right, L=left.
-	App->physics->CreateChain(0, 0, SkateparkFlipperDR, 18, b2_staticBody);
-	App->physics->CreateChain(0, 0, SkateparkFlipperTL, 18, b2_staticBody);
-	App->physics->CreateChain(0, 0, SkateparkFlipperTR, 16, b2_staticBody);
-	App->physics->CreateCircle(388, 577, 28,b2_staticBody);
-	App->physics->CreateCircle(106, 465, 28, b2_staticBody);
-	App->physics->CreateCircle(346, 444, 18, b2_staticBody);
-	App->physics->CreateCircle(479, 252, 18, b2_staticBody);
-	App->physics->CreateCircle(448, 151, 14, b2_staticBody);
-	App->physics->CreateCircle(420, 124, 14, b2_staticBody);
+	App->physics->CreateChain(0, 0, SkateparkMap, 88, b2_staticBody,WALL);
+	App->physics->CreateChain(0, 0, SkateparkMap2, 24, b2_staticBody, WALL);
+	App->physics->CreateChain(0, 0, SkateparkMap3, 30, b2_staticBody, WALL);
+	App->physics->CreateChain(0, 0, SkateparkMap4, 20, b2_staticBody, WALL);
+	App->physics->CreateChain(0, 0, SkateparkMap5, 22, b2_staticBody, WALL);
+	App->physics->CreateChain(0, 0, SkateparkMap6, 8, b2_staticBody, BOUNCE);
+	App->physics->CreateChain(0, 0, SkateparkMap7, 8, b2_staticBody, BOUNCE);
+	App->physics->CreateChain(0, 0, SkateparkMap8, 22, b2_staticBody, WALL);
+	App->physics->CreateChain(0, 0, SkateparkMap9, 26, b2_staticBody, WALL);
+	App->physics->CreateChain(0, 0, SkateparkMap10, 20, b2_staticBody, WALL);
+	App->physics->CreateChain(0, 0, SkateparkMap11, 8, b2_staticBody, WALL);
+	App->physics->CreateChain(0, 0, SkateparkMap12, 26, b2_staticBody, WALL);
+	App->physics->CreateChain(0, 0, SkateparkMap13, 20, b2_staticBody, WALL);
+	App->physics->CreateChain(0, 0, SkateparkMap14, 22, b2_staticBody, WALL);
+	App->physics->CreateChain(0, 0, SkateparkMap15, 12, b2_staticBody, WALL);
+	App->physics->CreateChain(0, 0, SkateparkMap16, 8, b2_staticBody, WALL);
+	App->physics->CreateChain(0, 0, SkateparkMap17, 16, b2_staticBody, WALL);
+
+	App->physics->CreateChain(0, 0, SkateparkFlipperDL, 18, b2_staticBody, WALL);//Flippers D= down, T=top, R=right, L=left.
+	App->physics->CreateChain(0, 0, SkateparkFlipperDR, 18, b2_staticBody, WALL);
+	App->physics->CreateChain(0, 0, SkateparkFlipperTL, 18, b2_staticBody, WALL);
+	App->physics->CreateChain(0, 0, SkateparkFlipperTR, 16, b2_staticBody, WALL);
+
+	App->physics->CreateCircle(388, 577, 28, b2_staticBody, WALL);
+	App->physics->CreateCircle(106, 465, 28, b2_staticBody, WALL);
+	App->physics->CreateCircle(346, 444, 18, b2_staticBody, WALL);
+	App->physics->CreateCircle(479, 252, 18, b2_staticBody, WALL);
+	App->physics->CreateCircle(448, 151, 14, b2_staticBody, WALL);
+	App->physics->CreateCircle(420, 124, 14, b2_staticBody, WALL);
 
 	//b2ChainShape pinball;
 	//
@@ -388,6 +390,8 @@ bool ModuleSceneIntro::CleanUp()
 // Update: draw background
 update_status ModuleSceneIntro::Update()
 {
+
+	
 	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
 		ray_on = !ray_on;
@@ -397,13 +401,13 @@ update_status ModuleSceneIntro::Update()
 
 	if(App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 	{
-		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 25, b2_dynamicBody));
+		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 25, b2_dynamicBody, BALL));
 		circles.getLast()->data->listener = this;
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
 	{
-		boxes.add(App->physics->CreateRectangle(App->input->GetMouseX(), App->input->GetMouseY(), 100, 50));
+		boxes.add(App->physics->CreateRectangle(App->input->GetMouseX(), App->input->GetMouseY(), 100, 50,b2_dynamicBody, BALL));
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
@@ -444,7 +448,7 @@ update_status ModuleSceneIntro::Update()
 			300, 62
 		};
 		//int prueba[8] = { 10,10,10,20,20,20,20,10 };
-		ricks.add(App->physics->CreateChain(App->input->GetMouseX(), App->input->GetMouseY(), rick_head, 64, b2_dynamicBody));
+		//ricks.add(App->physics->CreateChain(App->input->GetMouseX(), App->input->GetMouseY(), rick_head, 64, b2_dynamicBody));
 		//ricks.add(App->physics->CreateChain(10, 10,prueba, 8));
 		
 	}
@@ -468,7 +472,13 @@ update_status ModuleSceneIntro::Update()
 		c->data->GetPosition(x, y);
 		if(c->data->Contains(App->input->GetMouseX(), App->input->GetMouseY()))
 			App->renderer->Blit(circle, x, y, NULL, 1.0f, c->data->GetRotation());
+		if (force) {
+			c->data->body->ApplyLinearImpulse(b2Vec2(1, -5), c->data->body->GetWorldCenter(), false);
+			force = false;
+			LOG("impulse");
+		}
 		c = c->next;
+
 	}
 
 	c = boxes.getFirst();
@@ -517,8 +527,20 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 {
 	int x, y;
 
-	App->audio->PlayFx(bonus_fx);
+	
+	if (bodyB->coll == BALL) {
+		App->audio->PlayFx(bonus_fx);
+	}
 
+	if (bodyB->coll == BOUNCE) {
+		LOG("collision with wall");
+		//bodyB->body->ApplyForce(b2Vec2(10,20),  bodyB->body->GetWorldCenter(),false);
+		//bodyB->body->ApplyLinearImpulse(b2Vec2(100, 50000), bodyB->body->GetPosition(), false);
+		force = true;
+	}
+	
+
+	
 	/*
 	if(bodyA)
 	{

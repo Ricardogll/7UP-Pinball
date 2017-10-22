@@ -13,6 +13,14 @@
 #define PIXEL_TO_METERS(p)  ((float) METER_PER_PIXEL * p)
 
 // Small class to return to other modules to track position and rotation of physics bodies
+
+enum COLL_TYPE {
+	NONE = -1,
+	BALL,
+	WALL,
+	BOUNCE,
+};
+
 class PhysBody
 {
 public:
@@ -28,6 +36,7 @@ public:
 	int width, height;
 	b2Body* body;
 	Module* listener;
+	COLL_TYPE coll;
 };
 
 // Module --------------------------------------
@@ -42,10 +51,10 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
-	PhysBody* CreateCircle(int x, int y, int radius, b2BodyType type);
-	PhysBody* CreateRectangle(int x, int y, int width, int height);
+	PhysBody* CreateCircle(int x, int y, int radius, b2BodyType type, COLL_TYPE collider_type);
+	PhysBody* CreateRectangle(int x, int y, int width, int height, b2BodyType type, COLL_TYPE collider_type);
 	PhysBody* CreateRectangleSensor(int x, int y, int width, int height);
-	PhysBody* CreateChain(int x, int y, int* points, int size, b2BodyType type);
+	PhysBody* CreateChain(int x, int y, int* points, int size, b2BodyType type, COLL_TYPE collider_type);
 
 	// b2ContactListener ---
 	void BeginContact(b2Contact* contact);

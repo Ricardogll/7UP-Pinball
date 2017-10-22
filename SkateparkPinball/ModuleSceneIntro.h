@@ -32,6 +32,6 @@ public:
 	uint bonus_fx;
 	p2Point<int> ray;
 	bool ray_on;
-
+	bool force = false;
 	SDL_Rect maprect;
 };
