@@ -390,7 +390,7 @@ bool ModuleSceneIntro::CleanUp()
 // Update: draw background
 update_status ModuleSceneIntro::Update()
 {
-
+	currentTime = SDL_GetTicks();
 	
 	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
@@ -474,8 +474,10 @@ update_status ModuleSceneIntro::Update()
 			App->renderer->Blit(circle, x, y, NULL, 1.0f, c->data->GetRotation());
 		if (force) {
 			c->data->body->ApplyLinearImpulse(b2Vec2(1, -5), c->data->body->GetWorldCenter(), false);
-			force = false;
+			
 			LOG("impulse");
+			lastTime = currentTime;
+			
 		}
 		c = c->next;
 

@@ -34,4 +34,7 @@ public:
 	bool ray_on;
 	bool force = false;
 	SDL_Rect maprect;
+
+	uint currentTime = 0;
+	uint lastTime = 0;
 };
