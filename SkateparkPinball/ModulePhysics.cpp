@@ -173,7 +173,6 @@ PhysBody* ModulePhysics::CreateRectangle(int x, int y, int width, int height, b2
 {
 	b2BodyDef body;
 	body.type = type;
-	body.type = b2_dynamicBody;
 	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
 
 	b2Body* b = world->CreateBody(&body);

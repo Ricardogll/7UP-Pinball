@@ -271,6 +271,21 @@ bool ModuleSceneIntro::Start()
 		60, 190
 	};
 
+	muelle = App->physics->CreateRectangle(561,517,25,101,b2_dynamicBody, WALL);
+	muelle2 = App->physics->CreateRectangle(560, 527, 10, 10, b2_staticBody,WALL);
+	b2DistanceJointDef spring;
+	spring.type = e_distanceJoint;
+	spring.bodyA = muelle->body;
+	spring.bodyB = muelle2->body;
+	spring.localAnchorA.Set(0, 0);// 534, 567);
+	spring.localAnchorB.Set(0, 0);//563, 532);
+	spring.length = 0.0f;
+	spring.frequencyHz = 20.0f;
+	spring.dampingRatio = 1;
+	
+	App->physics->world->CreateJoint(&spring);
+
+
 	int SkateparkMap17[16] = {
 		564, 618,
 		564, 526,
@@ -340,7 +355,7 @@ bool ModuleSceneIntro::Start()
 	App->physics->CreateChain(0, 0, SkateparkMap14, 22, b2_staticBody, WALL);
 	App->physics->CreateChain(0, 0, SkateparkMap15, 12, b2_staticBody, WALL);
 	App->physics->CreateChain(0, 0, SkateparkMap16, 8, b2_staticBody, WALL);
-	App->physics->CreateChain(0, 0, SkateparkMap17, 16, b2_staticBody, WALL);
+	
 
 	App->physics->CreateChain(0, 0, SkateparkFlipperDL, 18, b2_staticBody, WALL);//Flippers D= down, T=top, R=right, L=left.
 	App->physics->CreateChain(0, 0, SkateparkFlipperDR, 18, b2_staticBody, WALL);
@@ -392,66 +407,23 @@ update_status ModuleSceneIntro::Update()
 {
 	currentTime = SDL_GetTicks();
 	
-	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
 	{
-		ray_on = !ray_on;
-		ray.x = App->input->GetMouseX();
-		ray.y = App->input->GetMouseY();
-	}
+		variable que vaya aumentando en el update y sea la variable y del applydforce
+		muelle->body->ApplyForceToCenter({ 0,10000 }, true);
+	}	
+	
 
-	if(App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
 	{
-		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 25, b2_dynamicBody, BALL));
-		circles.getLast()->data->listener = this;
-	}
-
-	if(App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN)
-	{
-		boxes.add(App->physics->CreateRectangle(App->input->GetMouseX(), App->input->GetMouseY(), 100, 50,b2_dynamicBody, BALL));
-	}
-
-	if(App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN)
-	{
-		// Pivot 0, 0
-		int rick_head[64] = {
-			14, 36,
-			42, 40,
-			40, 0,
-			75, 30,
-			88, 4,
-			94, 39,
-			111, 36,
-			104, 58,
-			107, 62,
-			117, 67,
-			109, 73,
-			110, 85,
-			106, 91,
-			109, 99,
-			103, 104,
-			100, 115,
-			106, 121,
-			103, 125,
-			98, 126,
-			95, 137,
-			83, 147,
-			67, 147,
-			53, 140,
-			46, 132,
-			34, 136,
-			38, 126,
-			23, 123,
-			30, 114,
-			10, 102,
-			29, 90,
-			0, 75,
-			300, 62
-		};
-		//int prueba[8] = { 10,10,10,20,20,20,20,10 };
-		//ricks.add(App->physics->CreateChain(App->input->GetMouseX(), App->input->GetMouseY(), rick_head, 64, b2_dynamicBody));
-		//ricks.add(App->physics->CreateChain(10, 10,prueba, 8));
 		
 	}
+
+	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+	{
+		
+	}
+
 
 	// Prepare for raycast ------------------------------------------------------
 	App->renderer->Blit(map, 0, 0, &maprect);
