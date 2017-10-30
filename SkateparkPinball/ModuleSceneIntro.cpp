@@ -473,9 +473,9 @@ update_status ModuleSceneIntro::Update()
 	while(c != NULL)
 	{
 		int x, y;
-		c->data->GetPosition(x, y);
-		if(c->data->Contains(App->input->GetMouseX(), App->input->GetMouseY()))
-			App->renderer->Blit(circle, x, y, NULL, 1.0f, c->data->GetRotation());
+		muelle->GetPosition(x, y);
+		//if(c->data->Contains(App->input->GetMouseX(), App->input->GetMouseY()))
+			App->renderer->Blit(circle, x, y, NULL, 1.0f, muelle->GetRotation());
 		/*if (force) {
 			c->data->body->ApplyLinearImpulse(b2Vec2(1, -5), c->data->body->GetWorldCenter(), false);
 			
@@ -525,6 +525,12 @@ update_status ModuleSceneIntro::Update()
 		if(normal.x != 0.0f)
 			App->renderer->DrawLine(ray.x + destination.x, ray.y + destination.y, ray.x + destination.x + normal.x * 25.0f, ray.y + destination.y + normal.y * 25.0f, 100, 255, 100);
 	}
+
+
+	int x, y;
+	muelle->GetPosition(x, y);
+	//if(c->data->Contains(App->input->GetMouseX(), App->input->GetMouseY()))
+	App->renderer->Blit(circle, x, y, NULL, 1.0f, muelle->GetRotation());
 
 	return UPDATE_CONTINUE;
 }
