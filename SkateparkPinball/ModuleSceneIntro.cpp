@@ -9,7 +9,7 @@
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	circle = box = rick = map = NULL;
+	spring = box = rick = map = NULL;
 	ray_on = false;
 	sensed = false;
 	maprect.x = 0;
@@ -29,7 +29,7 @@ bool ModuleSceneIntro::Start()
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
-	circle = App->textures->Load("pinball/wheel.png"); 
+	spring = App->textures->Load("pinball/wheel.png"); 
 	box = App->textures->Load("pinball/crate.png");
 	rick = App->textures->Load("pinball/rick_head.png");
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
@@ -416,7 +416,7 @@ bool ModuleSceneIntro::Start()
 bool ModuleSceneIntro::CleanUp()
 {
 	LOG("Unloading Intro scene");
-	App->textures->Unload(circle);
+	App->textures->Unload(spring);
 	App->textures->Unload(box);
 	App->textures->Unload(rick);
 	App->textures->Unload(map);
@@ -458,8 +458,11 @@ update_status ModuleSceneIntro::Update()
 
 
 	// Prepare for raycast ------------------------------------------------------
-	App->renderer->Blit(map, 0, 0, &maprect);
 
+	App->renderer->Blit(map, 0, 0, &maprect);
+	int x, y;
+	muelle->GetPosition(x, y);
+	App->renderer->Blit(spring, x, y, NULL, 1.0f, muelle->GetRotation());
 	iPoint mouse;
 	mouse.x = App->input->GetMouseX();
 	mouse.y = App->input->GetMouseY();
@@ -475,7 +478,7 @@ update_status ModuleSceneIntro::Update()
 		int x, y;
 		c->data->GetPosition(x, y);
 		if(c->data->Contains(App->input->GetMouseX(), App->input->GetMouseY()))
-			App->renderer->Blit(circle, x, y, NULL, 1.0f, c->data->GetRotation());
+			App->renderer->Blit(spring, x, y, NULL, 1.0f, c->data->GetRotation());
 		/*if (force) {
 			c->data->body->ApplyLinearImpulse(b2Vec2(1, -5), c->data->body->GetWorldCenter(), false);
 			
