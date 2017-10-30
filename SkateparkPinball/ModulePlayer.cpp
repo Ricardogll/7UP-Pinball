@@ -18,7 +18,7 @@ bool ModulePlayer::Start()
 
 	// big static circle as "ground" in the middle of the screen
 	int x = 568;
-	int y = 506;
+	int y = 406;
 	int diameter = 19;
 
 	b2BodyDef body;

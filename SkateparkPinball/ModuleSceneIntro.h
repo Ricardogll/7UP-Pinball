@@ -3,6 +3,7 @@
 #include "p2List.h"
 #include "p2Point.h"
 #include "Globals.h"
+#include "ModulePhysics.h"
 
 class PhysBody;
 
@@ -32,9 +33,13 @@ public:
 	uint bonus_fx;
 	p2Point<int> ray;
 	bool ray_on;
-	bool force = false;
+	//bool force = false;
 	SDL_Rect maprect;
-
+	PhysBody* muelle;
+	PhysBody* muelle2;
 	uint currentTime = 0;
 	uint lastTime = 0;
+	float spring_force = 0;
+	PhysBody* bounce6;
+	PhysBody* bounce7;
 };

@@ -55,7 +55,8 @@ public:
 	PhysBody* CreateRectangle(int x, int y, int width, int height, b2BodyType type, COLL_TYPE collider_type);
 	PhysBody* CreateRectangleSensor(int x, int y, int width, int height);
 	PhysBody* CreateChain(int x, int y, int* points, int size, b2BodyType type, COLL_TYPE collider_type);
-
+	PhysBody* CreateBounce(int x, int y, int* points, int size, float f_restitution, b2BodyType type, COLL_TYPE collider_type);
+	//PhysBody* CreateBounce(int x, int y, int width, int height, b2BodyType type, COLL_TYPE collider_type);
 	// b2ContactListener ---
 	void BeginContact(b2Contact* contact);
 

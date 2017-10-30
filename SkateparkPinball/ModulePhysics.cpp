@@ -49,62 +49,7 @@ bool ModulePhysics::Start()
 	//b2CircleShape shape;
 	//shape.m_radius = PIXEL_TO_METERS(diameter) * 0.5f;
 
-	//b2Vec2 test[27];
-	//test[0].x = PIXEL_TO_METERS(462);
-	//test[0].y = PIXEL_TO_METERS(162);
-	//test[1].x = PIXEL_TO_METERS(638);
-	//test[1].y = PIXEL_TO_METERS(188);
-	//test[2].x = PIXEL_TO_METERS(727);
-	//test[2].y = PIXEL_TO_METERS(212);
-	//test[3].x = PIXEL_TO_METERS(787);
-	//test[3].y = PIXEL_TO_METERS(245);
-	//test[4].x = PIXEL_TO_METERS(850);
-	//test[4].y = PIXEL_TO_METERS(335);
-	//test[5].x = PIXEL_TO_METERS(856);
-	//test[5].y = PIXEL_TO_METERS(431);
-	//test[6].x = PIXEL_TO_METERS(812);
-	//test[6].y = PIXEL_TO_METERS(570);
-	//test[7].x = PIXEL_TO_METERS(868);
-	//test[7].y = PIXEL_TO_METERS(534);
-	//test[8].x = PIXEL_TO_METERS(905);
-	//test[8].y = PIXEL_TO_METERS(567);
-	//test[9].x = PIXEL_TO_METERS(830);
-	//test[9].y = PIXEL_TO_METERS(702);
-	//test[10].x = PIXEL_TO_METERS(822);
-	//test[10].y = PIXEL_TO_METERS(802);
-	//test[11].x = PIXEL_TO_METERS(845);
-	//test[11].y = PIXEL_TO_METERS(931);
-	//test[12].x = PIXEL_TO_METERS(791);
-	//test[12].y = PIXEL_TO_METERS(1080);
-	//test[13].x = PIXEL_TO_METERS(718);
-	//test[13].y = PIXEL_TO_METERS(1154);
-	//test[14].x = PIXEL_TO_METERS(641);
-	//test[14].y = PIXEL_TO_METERS(1192);
-	//test[15].x = PIXEL_TO_METERS(386);
-	//test[15].y = PIXEL_TO_METERS(1158);
-	//test[16].x = PIXEL_TO_METERS(303);
-	//test[16].y = PIXEL_TO_METERS(1084);
-	//test[17].x = PIXEL_TO_METERS(248);
-	//test[17].y = PIXEL_TO_METERS(943);
-	//test[18].x = PIXEL_TO_METERS(258);
-	//test[18].y = PIXEL_TO_METERS(798);
-	//test[19].x = PIXEL_TO_METERS(246);
-	//test[19].y = PIXEL_TO_METERS(673);
-	//test[20].x = PIXEL_TO_METERS(173);
-	//test[20].y = PIXEL_TO_METERS(540);
-	//test[21].x = PIXEL_TO_METERS(88);
-	//test[21].y = PIXEL_TO_METERS(208);
-	//test[22].x = PIXEL_TO_METERS(125);
-	//test[22].y = PIXEL_TO_METERS(269);
-	//test[23].x = PIXEL_TO_METERS(211);
-	//test[23].y = PIXEL_TO_METERS(233);
-	//test[24].x = PIXEL_TO_METERS(288);
-	//test[24].y = PIXEL_TO_METERS(257);
-	//test[25].x = PIXEL_TO_METERS(364);
-	//test[25].y = PIXEL_TO_METERS(212);
-	//test[26].x = PIXEL_TO_METERS(436);
-	//test[26].y = PIXEL_TO_METERS(190);
-	//
+
 
 	
 	/*b2ChainShape shape;
@@ -173,13 +118,12 @@ PhysBody* ModulePhysics::CreateRectangle(int x, int y, int width, int height, b2
 {
 	b2BodyDef body;
 	body.type = type;
-	body.type = b2_dynamicBody;
 	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
-
+	
 	b2Body* b = world->CreateBody(&body);
 	b2PolygonShape box;
 	box.SetAsBox(PIXEL_TO_METERS(width) * 0.5f, PIXEL_TO_METERS(height) * 0.5f);
-
+	
 	b2FixtureDef fixture;
 	fixture.shape = &box;
 	fixture.density = 1.0f;
@@ -195,6 +139,42 @@ PhysBody* ModulePhysics::CreateRectangle(int x, int y, int width, int height, b2
 
 	return pbody;
 }
+
+PhysBody* ModulePhysics::CreateBounce(int x, int y, int* points, int size, float f_restitution, b2BodyType type, COLL_TYPE collider_type) {
+	b2BodyDef body;
+	body.type = type;
+	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
+
+
+	b2Body* b = world->CreateBody(&body);
+
+	b2ChainShape shape;
+	b2Vec2* p = new b2Vec2[size / 2];
+
+	for (uint i = 0; i < size / 2; ++i)
+	{
+		p[i].x = PIXEL_TO_METERS(points[i * 2 + 0]);
+		p[i].y = PIXEL_TO_METERS(points[i * 2 + 1]);
+	}
+
+	shape.CreateLoop(p, size / 2);
+
+	b2FixtureDef fixture;
+	fixture.shape = &shape;
+	fixture.restitution = f_restitution;
+	b->CreateFixture(&fixture);
+
+	delete p;
+
+	PhysBody* pbody = new PhysBody();
+	pbody->body = b;
+	b->SetUserData(pbody);
+	pbody->width = pbody->height = 0;
+	pbody->coll = collider_type;
+
+	return pbody;
+}
+
 
 PhysBody* ModulePhysics::CreateRectangleSensor(int x, int y, int width, int height)
 {
