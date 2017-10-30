@@ -24,16 +24,17 @@ bool ModulePlayer::Start()
 	b2BodyDef body;
 	body.type = b2_dynamicBody;
 	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
-
+	body.bullet = true;
+	
 	b2Body* playerball = App->physics->world->CreateBody(&body);
-
+	playerball->SetBullet(true);
 	b2CircleShape shape;
 	shape.m_radius = PIXEL_TO_METERS(diameter) * 0.5f;
-
+	
 	b2FixtureDef fixture;
 	fixture.shape = &shape;
 	playerball->CreateFixture(&fixture);
-
+	fixture.density = -0.5;
 	LOG("Loading player");
 	return true;
 }
