@@ -50,20 +50,108 @@ bool ModulePhysics::Start()
 	//shape.m_radius = PIXEL_TO_METERS(diameter) * 0.5f;
 
 
+	//FLIPPERS D=down T=top R=right L=left
+	b2Vec2 flipperDR[9];
+	flipperDR[0] = { PIXEL_TO_METERS(306), PIXEL_TO_METERS(797) };
+	flipperDR[1] = { PIXEL_TO_METERS(368), PIXEL_TO_METERS(785) };
+	flipperDR[2] = { PIXEL_TO_METERS(379), PIXEL_TO_METERS(790) };
+	flipperDR[3] = { PIXEL_TO_METERS(383), PIXEL_TO_METERS(799) };
+	flipperDR[4] = { PIXEL_TO_METERS(380), PIXEL_TO_METERS(810) };
+	flipperDR[5] = { PIXEL_TO_METERS(372), PIXEL_TO_METERS(813) };
+	flipperDR[6] = { PIXEL_TO_METERS(356), PIXEL_TO_METERS(812) };
+	flipperDR[7] = { PIXEL_TO_METERS(314), PIXEL_TO_METERS(806) };
+	flipperDR[8] = { PIXEL_TO_METERS(307), PIXEL_TO_METERS(803) };
 
+	dr_flipper_anchor = App->physics->CreateCircle(370, 801, 2, b2_staticBody, NONE);
+	dr_flipper = App->physics->CreatePolygon(flipperDR, 8, 0);
+
+	b2RevoluteJointDef dr_jointdef;
+	dr_jointdef.bodyA = dr_flipper->body;
+	dr_jointdef.bodyB = dr_flipper_anchor->body;
+	dr_jointdef.localAnchorA.Set(PIXEL_TO_METERS(370), PIXEL_TO_METERS(801));
+	dr_jointdef.enableLimit = true;
+	dr_jointdef.lowerAngle = -70 * DEGTORAD;
+	dr_jointdef.upperAngle = 10 * DEGTORAD;
+
+	dr_revolutejoint = (b2RevoluteJoint*)world->CreateJoint(&dr_jointdef);
+
+
+
+	b2Vec2 flipperDL[9];
+	flipperDL[0] = { PIXEL_TO_METERS(213), PIXEL_TO_METERS(785) };
+	flipperDL[1] = { PIXEL_TO_METERS(203), PIXEL_TO_METERS(791) };
+	flipperDL[2] = { PIXEL_TO_METERS(200), PIXEL_TO_METERS(801) };
+	flipperDL[3] = { PIXEL_TO_METERS(202), PIXEL_TO_METERS(810) };
+	flipperDL[4] = { PIXEL_TO_METERS(212), PIXEL_TO_METERS(815) };
+	flipperDL[5] = { PIXEL_TO_METERS(270), PIXEL_TO_METERS(806) };
+	flipperDL[6] = { PIXEL_TO_METERS(277), PIXEL_TO_METERS(804) };
+	flipperDL[7] = { PIXEL_TO_METERS(277), PIXEL_TO_METERS(797) };
+	flipperDL[8] = { PIXEL_TO_METERS(225), PIXEL_TO_METERS(787) };
+
+	dl_flipper_anchor = App->physics->CreateCircle(214, 801, 2, b2_staticBody, NONE);
+	dl_flipper = App->physics->CreatePolygon(flipperDL, 8, 0);
+
+	b2RevoluteJointDef dl_jointdef;
+	dl_jointdef.bodyA = dl_flipper->body;
+	dl_jointdef.bodyB = dl_flipper_anchor->body;
+	dl_jointdef.localAnchorA.Set(PIXEL_TO_METERS(214), PIXEL_TO_METERS(801));
+	dl_jointdef.enableLimit = true;
+	dl_jointdef.lowerAngle = -70 * DEGTORAD; //cambiar angulos luego de borrar parte del mapa
+	dl_jointdef.upperAngle = 10 * DEGTORAD;
+
+	dl_revolutejoint = (b2RevoluteJoint*)world->CreateJoint(&dl_jointdef);
+
+
+	b2Vec2 flipperTR[8];
+	flipperTR[0] = { PIXEL_TO_METERS(480), PIXEL_TO_METERS(440) };
+	flipperTR[1] = { PIXEL_TO_METERS(424), PIXEL_TO_METERS(473) };
+	flipperTR[2] = { PIXEL_TO_METERS(425), PIXEL_TO_METERS(478) };
+	flipperTR[3] = { PIXEL_TO_METERS(431), PIXEL_TO_METERS(479) };
+	flipperTR[4] = { PIXEL_TO_METERS(486), PIXEL_TO_METERS(468) };
+	flipperTR[5] = { PIXEL_TO_METERS(497), PIXEL_TO_METERS(460) };
+	flipperTR[6] = { PIXEL_TO_METERS(498), PIXEL_TO_METERS(452) };
+	flipperTR[7] = { PIXEL_TO_METERS(491), PIXEL_TO_METERS(440) };
 	
-	/*b2ChainShape shape;
-	shape.CreateChain(test, 27);
-	b2FixtureDef fixture;
-	fixture.shape = &shape;
-	big_ball->CreateFixture(&fixture);*/
+
+	tr_flipper_anchor = App->physics->CreateCircle(485, 454, 2, b2_staticBody, NONE);
+	tr_flipper = App->physics->CreatePolygon(flipperTR, 7, 0);
+
+	b2RevoluteJointDef tr_jointdef;
+	tr_jointdef.bodyA = tr_flipper->body;
+	tr_jointdef.bodyB = tr_flipper_anchor->body;
+	tr_jointdef.localAnchorA.Set(PIXEL_TO_METERS(485), PIXEL_TO_METERS(454));
+	tr_jointdef.enableLimit = true;
+	tr_jointdef.lowerAngle = -70 * DEGTORAD;
+	tr_jointdef.upperAngle = 10 * DEGTORAD;
+
+	tr_revolutejoint = (b2RevoluteJoint*)world->CreateJoint(&tr_jointdef);
 
 
-	//*****************************
-	//int prueba[8] = { 10,10,10,20,20,20,20,10 };
-	//b2ChainShape pinball;
-	//pinball.CreateChain(10, 10, prueba, 8);
-	//	ricks.add(App->physics->CreateChain(10, 10, prueba, 8));
+
+	b2Vec2 flipperTL[9];
+	flipperTL[0] = { PIXEL_TO_METERS(97), PIXEL_TO_METERS(340) };
+	flipperTL[1] = { PIXEL_TO_METERS(46), PIXEL_TO_METERS(316) };
+	flipperTL[2] = { PIXEL_TO_METERS(37), PIXEL_TO_METERS(306) };
+	flipperTL[3] = { PIXEL_TO_METERS(38), PIXEL_TO_METERS(293) };
+	flipperTL[4] = { PIXEL_TO_METERS(51), PIXEL_TO_METERS(287) };
+	flipperTL[5] = { PIXEL_TO_METERS(62), PIXEL_TO_METERS(293) };
+	flipperTL[6] = { PIXEL_TO_METERS(80), PIXEL_TO_METERS(311) };
+	flipperTL[7] = { PIXEL_TO_METERS(104), PIXEL_TO_METERS(335) };
+	flipperTL[8] = { PIXEL_TO_METERS(102), PIXEL_TO_METERS(340) };
+
+	tl_flipper_anchor = App->physics->CreateCircle(50, 302, 2, b2_staticBody, NONE);
+	tl_flipper = App->physics->CreatePolygon(flipperTL, 8, 0);
+
+	b2RevoluteJointDef tl_jointdef;
+	tl_jointdef.bodyA = tl_flipper->body;
+	tl_jointdef.bodyB = tl_flipper_anchor->body;
+	tl_jointdef.localAnchorA.Set(PIXEL_TO_METERS(50), PIXEL_TO_METERS(302));
+	tl_jointdef.enableLimit = true;
+	tl_jointdef.lowerAngle = -70 * DEGTORAD; //cambiar angulos luego de borrar parte del mapa
+	tl_jointdef.upperAngle = 10 * DEGTORAD;
+
+	tl_revolutejoint = (b2RevoluteJoint*)world->CreateJoint(&tl_jointdef);
+
 	return true;
 }
 
@@ -263,6 +351,31 @@ PhysBody* ModulePhysics::CreateChain(int x, int y, int* points, int size, b2Body
 	b->SetUserData(pbody);
 	pbody->width = pbody->height = 0;
 	pbody->coll = collider_type;
+
+	return pbody;
+}
+
+PhysBody* ModulePhysics::CreatePolygon(b2Vec2 vertices[], uint num_vecs, float angle) {
+
+	b2BodyDef body;
+	body.type = b2_dynamicBody;
+	body.position.Set(0, 0);
+	body.angle = angle * DEGTORAD;
+
+	b2Body* b = App->physics->world->CreateBody(&body);
+	b2PolygonShape polygon;
+	polygon.Set(vertices, num_vecs);
+
+	b2FixtureDef fixture;
+	fixture.density = 1.0f;
+	fixture.shape = &polygon;
+	b->CreateFixture(&fixture);
+
+	PhysBody* pbody = new PhysBody();
+	pbody->body = b;
+	b->SetUserData(pbody);
+	pbody->width = 0;
+	pbody->height = 0;
 
 	return pbody;
 }

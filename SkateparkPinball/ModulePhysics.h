@@ -57,6 +57,7 @@ public:
 	PhysBody* CreateChain(int x, int y, int* points, int size, b2BodyType type, COLL_TYPE collider_type);
 	PhysBody* CreateBounce(int x, int y, int* points, int size, float f_restitution, b2BodyType type, COLL_TYPE collider_type);
 	PhysBody* CreateCBounce(int x, int y, int radius, float f_restitution, b2BodyType type, COLL_TYPE collider_type);
+	PhysBody* CreatePolygon(b2Vec2 vertices[], uint num_vecs, float angle);
 	//PhysBody* CreateBounce(int x, int y, int width, int height, b2BodyType type, COLL_TYPE collider_type);
 	// b2ContactListener ---
 	void BeginContact(b2Contact* contact);
@@ -68,4 +69,20 @@ private:
 	
 	b2MouseJoint* mouse_joint;
 	b2Body* ground;
+
+	PhysBody* dr_flipper;
+	PhysBody* dr_flipper_anchor;
+	b2RevoluteJoint* dr_revolutejoint;
+
+	PhysBody* dl_flipper;
+	PhysBody* dl_flipper_anchor;
+	b2RevoluteJoint* dl_revolutejoint;
+
+	PhysBody* tr_flipper;
+	PhysBody* tr_flipper_anchor;
+	b2RevoluteJoint* tr_revolutejoint;
+
+	PhysBody* tl_flipper;
+	PhysBody* tl_flipper_anchor;
+	b2RevoluteJoint* tl_revolutejoint;
 };

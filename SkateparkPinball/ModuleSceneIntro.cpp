@@ -380,10 +380,10 @@ bool ModuleSceneIntro::Start()
 	App->physics->CreateBounce(0, 0, SkateparkMap16, 8, 2.0f,b2_staticBody, BOUNCE);
 	
 
-	App->physics->CreateChain(0, 0, SkateparkFlipperDL, 18, b2_staticBody, WALL);//Flippers D= down, T=top, R=right, L=left.
-	App->physics->CreateChain(0, 0, SkateparkFlipperDR, 18, b2_staticBody, WALL);
-	App->physics->CreateChain(0, 0, SkateparkFlipperTL, 18, b2_staticBody, WALL);
-	App->physics->CreateChain(0, 0, SkateparkFlipperTR, 16, b2_staticBody, WALL);
+	//App->physics->CreateChain(0, 0, SkateparkFlipperDL, 18, b2_staticBody, WALL);//Flippers D= down, T=top, R=right, L=left.
+	//App->physics->CreateChain(0, 0, SkateparkFlipperDR, 18, b2_staticBody, WALL);
+	//App->physics->CreateChain(0, 0, SkateparkFlipperTL, 18, b2_staticBody, WALL);
+	//App->physics->CreateChain(0, 0, SkateparkFlipperTR, 16, b2_staticBody, WALL);
 
 	App->physics->CreateCBounce(388, 577, 28, 1.0f,b2_staticBody, BOUNCE);
 	App->physics->CreateCBounce(106, 465, 28, 0.5f ,b2_staticBody, BOUNCE);
