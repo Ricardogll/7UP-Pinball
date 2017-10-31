@@ -70,7 +70,7 @@ bool ModulePhysics::Start()
 	dr_jointdef.bodyB = dr_flipper_anchor->body;
 	dr_jointdef.localAnchorA.Set(PIXEL_TO_METERS(370), PIXEL_TO_METERS(801));
 	dr_jointdef.enableLimit = true;
-	dr_jointdef.lowerAngle = -70 * DEGTORAD;
+	dr_jointdef.lowerAngle = -60 * DEGTORAD;
 	dr_jointdef.upperAngle = 10 * DEGTORAD;
 
 	dr_revolutejoint = (b2RevoluteJoint*)world->CreateJoint(&dr_jointdef);
@@ -96,8 +96,8 @@ bool ModulePhysics::Start()
 	dl_jointdef.bodyB = dl_flipper_anchor->body;
 	dl_jointdef.localAnchorA.Set(PIXEL_TO_METERS(214), PIXEL_TO_METERS(801));
 	dl_jointdef.enableLimit = true;
-	dl_jointdef.lowerAngle = -70 * DEGTORAD; //cambiar angulos luego de borrar parte del mapa
-	dl_jointdef.upperAngle = 10 * DEGTORAD;
+	dl_jointdef.lowerAngle = -10 * DEGTORAD; //cambiar angulos luego de borrar parte del mapa
+	dl_jointdef.upperAngle = 60 * DEGTORAD;
 
 	dl_revolutejoint = (b2RevoluteJoint*)world->CreateJoint(&dl_jointdef);
 
@@ -121,7 +121,7 @@ bool ModulePhysics::Start()
 	tr_jointdef.bodyB = tr_flipper_anchor->body;
 	tr_jointdef.localAnchorA.Set(PIXEL_TO_METERS(485), PIXEL_TO_METERS(454));
 	tr_jointdef.enableLimit = true;
-	tr_jointdef.lowerAngle = -70 * DEGTORAD;
+	tr_jointdef.lowerAngle = -60 * DEGTORAD;
 	tr_jointdef.upperAngle = 10 * DEGTORAD;
 
 	tr_revolutejoint = (b2RevoluteJoint*)world->CreateJoint(&tr_jointdef);
@@ -147,8 +147,8 @@ bool ModulePhysics::Start()
 	tl_jointdef.bodyB = tl_flipper_anchor->body;
 	tl_jointdef.localAnchorA.Set(PIXEL_TO_METERS(50), PIXEL_TO_METERS(302));
 	tl_jointdef.enableLimit = true;
-	tl_jointdef.lowerAngle = -70 * DEGTORAD; //cambiar angulos luego de borrar parte del mapa
-	tl_jointdef.upperAngle = 10 * DEGTORAD;
+	tl_jointdef.lowerAngle = -10 * DEGTORAD; //cambiar angulos luego de borrar parte del mapa
+	tl_jointdef.upperAngle = 60 * DEGTORAD;
 
 	tl_revolutejoint = (b2RevoluteJoint*)world->CreateJoint(&tl_jointdef);
 
