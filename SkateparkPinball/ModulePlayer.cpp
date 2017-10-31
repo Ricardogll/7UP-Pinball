@@ -2,6 +2,8 @@
 #include "Application.h"
 #include "ModulePlayer.h"
 #include "ModulePhysics.h"
+#include"ModuleRender.h"
+#include "ModuleTextures.h"
 
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -13,28 +15,19 @@ ModulePlayer::~ModulePlayer()
 // Load assets
 bool ModulePlayer::Start()
 {
+
+	circle = App->textures->Load("pinball/ball.png");
 	b2BodyDef bd;
 	ground = App->physics->world->CreateBody(&bd);
 
 	// big static circle as "ground" in the middle of the screen
 	int x = 568;
 	int y = 406;
-	int diameter = 19;
+	int radius = 19;
 
-	b2BodyDef body;
-	body.type = b2_dynamicBody;
-	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
-	body.bullet = true;
+	ball=App->physics->CreateCircle(x, y, radius * 0.5f,b2_dynamicBody, NONE);
+
 	
-	b2Body* playerball = App->physics->world->CreateBody(&body);
-	playerball->SetBullet(true);
-	b2CircleShape shape;
-	shape.m_radius = PIXEL_TO_METERS(diameter) * 0.5f;
-	
-	b2FixtureDef fixture;
-	fixture.shape = &shape;
-	playerball->CreateFixture(&fixture);
-	fixture.density = -0.5;
 	LOG("Loading player");
 	return true;
 }
@@ -42,6 +35,7 @@ bool ModulePlayer::Start()
 // Unload assets
 bool ModulePlayer::CleanUp()
 {
+	App->textures->Unload(circle);
 	LOG("Unloading player");
 
 	return true;
@@ -50,6 +44,10 @@ bool ModulePlayer::CleanUp()
 // Update: draw background
 update_status ModulePlayer::Update()
 {
+	int x, y;
+	ball->GetPosition(x, y);
+	App->renderer->Blit(circle, x, y, NULL, 1.0f, ball->GetRotation());
+
 	return UPDATE_CONTINUE;
 }
 

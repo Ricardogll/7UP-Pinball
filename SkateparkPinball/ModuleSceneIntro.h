@@ -26,10 +26,12 @@ public:
 	PhysBody* sensor;
 	bool sensed;
 
-	SDL_Texture* circle;
+	
 	SDL_Texture* box;
 	SDL_Texture* rick;
 	SDL_Texture* map;
+	SDL_Texture* spring;
+	SDL_Texture* power;
 	uint bonus_fx;
 	p2Point<int> ray;
 	bool ray_on;

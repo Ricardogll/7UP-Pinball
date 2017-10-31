@@ -6,10 +6,11 @@
 #include "ModuleTextures.h"
 #include "ModuleAudio.h"
 #include "ModulePhysics.h"
+#include "ModulePlayer.h"
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	circle = box = rick = map = NULL;
+	
 	ray_on = false;
 	sensed = false;
 	maprect.x = 0;
@@ -28,12 +29,12 @@ bool ModuleSceneIntro::Start()
 	bool ret = true;
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
-
-	circle = App->textures->Load("pinball/wheel.png"); 
-	box = App->textures->Load("pinball/crate.png");
+	spring = App->textures->Load("pinball/muelle.png");
+	box = App->textures->Load("pinball/crate.png"); 
 	rick = App->textures->Load("pinball/rick_head.png");
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
 	map = App->textures->Load("pinball/SkateparkMap.png");
+	power = App->textures->Load("pinball/Power.png");
 
 
 	//sensor = App->physics->CreateRectangleSensor(SCREEN_WIDTH / 2, SCREEN_HEIGHT, SCREEN_WIDTH, 50);
@@ -366,17 +367,17 @@ bool ModuleSceneIntro::Start()
 	//bounce7=App->physics->CreateChain(0, 0, SkateparkMap7, 8, b2_staticBody, BOUNCE);
 	App->physics->CreateChain(0, 0, SkateparkMap6, 8, b2_staticBody, WALL);
 	App->physics->CreateChain(0, 0, SkateparkMap7, 8, b2_staticBody, WALL);
-	App->physics->CreateBounce(0, 0, SkateparkBounceR, 8, 1.7f, b2_staticBody, BOUNCE);
-	App->physics->CreateBounce(0, 0, SkateparkBounceL, 8, 1.7f, b2_staticBody, BOUNCE);
+	App->physics->CreateBounce(0, 0, SkateparkBounceR, 8, 3.0f, b2_staticBody, BOUNCE);
+	App->physics->CreateBounce(0, 0, SkateparkBounceL, 8, 3.0f, b2_staticBody, BOUNCE);
 	App->physics->CreateChain(0, 0, SkateparkMap8, 22, b2_staticBody, WALL);
-	App->physics->CreateChain(0, 0, SkateparkMap9, 26, b2_staticBody, WALL);
+	App->physics->CreateBounce(0, 0, SkateparkMap9, 26, 2.0f,b2_staticBody, BOUNCE);
 	App->physics->CreateChain(0, 0, SkateparkMap10, 20, b2_staticBody, WALL);
 	App->physics->CreateChain(0, 0, SkateparkMap11, 8, b2_staticBody, WALL);
 	App->physics->CreateChain(0, 0, SkateparkMap12, 26, b2_staticBody, WALL);
-	App->physics->CreateChain(0, 0, SkateparkMap13, 20, b2_staticBody, WALL);
-	App->physics->CreateChain(0, 0, SkateparkMap14, 22, b2_staticBody, WALL);
-	App->physics->CreateChain(0, 0, SkateparkMap15, 12, b2_staticBody, WALL);
-	App->physics->CreateChain(0, 0, SkateparkMap16, 8, b2_staticBody, WALL);
+	App->physics->CreateBounce(0, 0, SkateparkMap13, 20, 1.0f,b2_staticBody, BOUNCE);
+	App->physics->CreateBounce(0, 0, SkateparkMap14, 22, 1.7f, b2_staticBody, BOUNCE);
+	App->physics->CreateBounce(0, 0, SkateparkMap15, 12, 2.0f, b2_staticBody, BOUNCE);
+	App->physics->CreateBounce(0, 0, SkateparkMap16, 8, 2.0f,b2_staticBody, BOUNCE);
 	
 
 	App->physics->CreateChain(0, 0, SkateparkFlipperDL, 18, b2_staticBody, WALL);//Flippers D= down, T=top, R=right, L=left.
@@ -384,12 +385,12 @@ bool ModuleSceneIntro::Start()
 	App->physics->CreateChain(0, 0, SkateparkFlipperTL, 18, b2_staticBody, WALL);
 	App->physics->CreateChain(0, 0, SkateparkFlipperTR, 16, b2_staticBody, WALL);
 
-	App->physics->CreateCircle(388, 577, 28, b2_staticBody, WALL);
-	App->physics->CreateCircle(106, 465, 28, b2_staticBody, WALL);
-	App->physics->CreateCircle(346, 444, 18, b2_staticBody, WALL);
-	App->physics->CreateCircle(479, 252, 18, b2_staticBody, WALL);
-	App->physics->CreateCircle(448, 151, 14, b2_staticBody, WALL);
-	App->physics->CreateCircle(420, 124, 14, b2_staticBody, WALL);
+	App->physics->CreateCBounce(388, 577, 28, 1.0f,b2_staticBody, BOUNCE);
+	App->physics->CreateCBounce(106, 465, 28, 0.5f ,b2_staticBody, BOUNCE);
+	App->physics->CreateCBounce(346, 444, 18, 2.0f, b2_staticBody, BOUNCE);
+	App->physics->CreateCBounce(479, 252, 18, 2.0f, b2_staticBody, BOUNCE);
+	App->physics->CreateCBounce(448, 151, 14, 0.5f, b2_staticBody, BOUNCE);
+	App->physics->CreateCBounce(420, 124, 14, 0.5f, b2_staticBody, BOUNCE);
 
 	//b2ChainShape pinball;
 	//
@@ -416,7 +417,7 @@ bool ModuleSceneIntro::Start()
 bool ModuleSceneIntro::CleanUp()
 {
 	LOG("Unloading Intro scene");
-	App->textures->Unload(circle);
+	
 	App->textures->Unload(box);
 	App->textures->Unload(rick);
 	App->textures->Unload(map);
@@ -434,8 +435,8 @@ update_status ModuleSceneIntro::Update()
 		//variable que vaya aumentando en el update y sea la variable y del applydforce
 		muelle->body->ApplyForceToCenter({ 0,spring_force }, true);
 
-		if (spring_force<14000 && lastTime + 10<currentTime) {
-			spring_force += 150;
+		if (spring_force<22000 && lastTime + 10<currentTime) {
+			spring_force += 300;
 			lastTime = currentTime;
 			LOG("LastTime=%d, spring_force=%f", currentTime, spring_force);
 		}
@@ -472,10 +473,6 @@ update_status ModuleSceneIntro::Update()
 
 	while(c != NULL)
 	{
-		int x, y;
-		muelle->GetPosition(x, y);
-		//if(c->data->Contains(App->input->GetMouseX(), App->input->GetMouseY()))
-			App->renderer->Blit(circle, x, y, NULL, 1.0f, muelle->GetRotation());
 		/*if (force) {
 			c->data->body->ApplyLinearImpulse(b2Vec2(1, -5), c->data->body->GetWorldCenter(), false);
 			
@@ -526,11 +523,10 @@ update_status ModuleSceneIntro::Update()
 			App->renderer->DrawLine(ray.x + destination.x, ray.y + destination.y, ray.x + destination.x + normal.x * 25.0f, ray.y + destination.y + normal.y * 25.0f, 100, 255, 100);
 	}
 
-
 	int x, y;
 	muelle->GetPosition(x, y);
-	//if(c->data->Contains(App->input->GetMouseX(), App->input->GetMouseY()))
-	App->renderer->Blit(circle, x, y, NULL, 1.0f, muelle->GetRotation());
+	App->renderer->Blit(spring,x, y, NULL, 1.0f, muelle->GetRotation());
+	App->renderer->Blit(power, 548, 619, NULL, 1.0f);
 
 	return UPDATE_CONTINUE;
 }

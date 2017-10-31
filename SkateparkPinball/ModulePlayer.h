@@ -22,6 +22,7 @@
 #include "Globals.h"
 #include "p2Point.h"
 #include "Box2D/Box2D/Box2D.h"
+#include "ModuleTextures.h"
 
 #define GRAVITY_X 0.0f
 #define GRAVITY_Y -7.0f
@@ -31,6 +32,8 @@
 
 #define METERS_TO_PIXELS(m) ((int) floor(PIXELS_PER_METER * m))
 #define PIXEL_TO_METERS(p)  ((float) METER_PER_PIXEL * p)
+
+class SDL_Texture;
 
 class ModulePlayer : public Module
 {
@@ -42,6 +45,8 @@ public:
 	update_status Update();
 	bool CleanUp();
 private:
+	PhysBody* ball;
+	SDL_Texture* circle;
 	b2World* world;
 	b2MouseJoint* mouse_joint;
 	b2Body* ground;
