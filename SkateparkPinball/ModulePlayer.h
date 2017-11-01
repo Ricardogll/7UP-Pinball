@@ -44,8 +44,10 @@ public:
 	bool Start();
 	update_status Update();
 	bool CleanUp();
-private:
+
 	PhysBody* ball;
+private:
+	
 	SDL_Texture* circle;
 	b2World* world;
 	b2MouseJoint* mouse_joint;

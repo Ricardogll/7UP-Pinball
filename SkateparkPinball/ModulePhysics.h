@@ -15,10 +15,12 @@
 // Small class to return to other modules to track position and rotation of physics bodies
 
 enum COLL_TYPE {
-	NONE = -1,
-	BALL,
-	WALL,
-	BOUNCE,
+	
+	NONE=0x0001,
+	BALL=0x0002,
+	WALL=0x0003,
+	BOUNCE=0x0004,
+	ALL = -1,
 };
 
 class PhysBody

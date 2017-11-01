@@ -329,6 +329,11 @@ bool ModuleSceneIntro::Start()
 	//muelle = App->physics->CreateRectangle(561,517,25,101,b2_dynamicBody, WALL);
 	//muelle2 = App->physics->CreateRectangle(560, 527, 10, 10, b2_staticBody,WALL);
 	
+	PhysBody* pb;
+	b2Filter filterspring;
+	filterspring.categoryBits = BOUNCE;
+	filterspring.maskBits = -1;
+
 	muelle = App->physics->CreateRectangle(555, 517, 31, 100, b2_dynamicBody, WALL);
 	muelle2 = App->physics->CreateRectangle(564, 592, 10, 10, b2_staticBody, WALL);
 
@@ -336,14 +341,17 @@ bool ModuleSceneIntro::Start()
 	spring.type = e_distanceJoint;
 	spring.bodyA = muelle->body;
 	spring.bodyB = muelle2->body;
-	spring.localAnchorA.Set(PIXEL_TO_METERS(0), PIXEL_TO_METERS(25));// 534, 567);
-	spring.localAnchorB.Set(PIXEL_TO_METERS(0), 0);//563, 532);
+	spring.localAnchorA.Set(0, PIXEL_TO_METERS(25));// 534, 567);
+	spring.localAnchorB.Set(0, 0);//563, 532);
 	spring.length = 0.0f;
 	spring.frequencyHz = 20.0f;
 	spring.dampingRatio = 1;
-	
+
 	App->physics->world->CreateJoint(&spring);
 
+
+	muelle->body->GetFixtureList()->SetFilterData(filterspring);
+	muelle2->body->GetFixtureList()->SetFilterData(filterspring);
 
 	int SkateparkMap17[16] = {
 		564, 618,
@@ -412,58 +420,75 @@ bool ModuleSceneIntro::Start()
 		378, 602
 	};
 
+	//PhysBody* pb;
+	b2Filter filterwall;
+	filterwall.categoryBits = WALL;
+	filterwall.maskBits = -1;
+
+	b2Filter filterbounce;
+	filterbounce.categoryBits = BOUNCE;
+	filterbounce.maskBits = BALL;
 	//App->physics->CreateChain(0, 0, SkateparkMap, 88, b2_staticBody,WALL);
-	App->physics->CreateChain(0, 0, SkateparkMap, 104, b2_staticBody, WALL);
-	App->physics->CreateChain(0, 0, SkateparkMap2, 24, b2_staticBody, WALL);
-	App->physics->CreateChain(0, 0, SkateparkMap3, 30, b2_staticBody, WALL);
-	App->physics->CreateChain(0, 0, SkateparkMap4, 20, b2_staticBody, WALL);
-	App->physics->CreateChain(0, 0, SkateparkMap5, 22, b2_staticBody, WALL);
+	pb=App->physics->CreateChain(0, 0, SkateparkMap, 104, b2_staticBody, WALL);
+	pb->body->GetFixtureList()->SetFilterData(filterwall);
+	pb = App->physics->CreateChain(0, 0, SkateparkMap2, 24, b2_staticBody, WALL);
+	pb->body->GetFixtureList()->SetFilterData(filterwall);
+	pb = App->physics->CreateChain(0, 0, SkateparkMap3, 30, b2_staticBody, WALL);
+	pb->body->GetFixtureList()->SetFilterData(filterwall);
+	pb = App->physics->CreateChain(0, 0, SkateparkMap4, 20, b2_staticBody, WALL);
+	pb->body->GetFixtureList()->SetFilterData(filterwall);
+	pb = App->physics->CreateChain(0, 0, SkateparkMap5, 22, b2_staticBody, WALL);
+	pb->body->GetFixtureList()->SetFilterData(filterwall);
 	//bounce6=App->physics->CreateChain(0, 0, SkateparkMap6, 8, b2_staticBody, BOUNCE);
 	//bounce7=App->physics->CreateChain(0, 0, SkateparkMap7, 8, b2_staticBody, BOUNCE);
-	App->physics->CreateChain(0, 0, SkateparkMap6, 8, b2_staticBody, WALL);
-	App->physics->CreateChain(0, 0, SkateparkMap7, 8, b2_staticBody, WALL);
-	App->physics->CreateBounce(0, 0, SkateparkBounceR, 8, 3.0f, b2_staticBody, BOUNCE);
-	App->physics->CreateBounce(0, 0, SkateparkBounceL, 8, 3.0f, b2_staticBody, BOUNCE);
-	App->physics->CreateChain(0, 0, SkateparkMap8, 22, b2_staticBody, WALL);
-	App->physics->CreateBounce(0, 0, SkateparkMap9, 26, 2.0f,b2_staticBody, BOUNCE);
-	App->physics->CreateChain(0, 0, SkateparkMap10, 20, b2_staticBody, WALL);
-	App->physics->CreateChain(0, 0, SkateparkMap11, 8, b2_staticBody, WALL);
-	App->physics->CreateChain(0, 0, SkateparkMap12, 26, b2_staticBody, WALL);
-	App->physics->CreateBounce(0, 0, SkateparkMap13, 20, 1.0f,b2_staticBody, BOUNCE);
-	App->physics->CreateBounce(0, 0, SkateparkMap14, 22, 1.7f, b2_staticBody, BOUNCE);
-	App->physics->CreateBounce(0, 0, SkateparkMap15, 12, 2.0f, b2_staticBody, BOUNCE);
-	App->physics->CreateBounce(0, 0, SkateparkMap16, 8, 2.0f,b2_staticBody, BOUNCE);
-	
+	pb = App->physics->CreateChain(0, 0, SkateparkMap6, 8, b2_staticBody, WALL);
+	pb->body->GetFixtureList()->SetFilterData(filterwall);
+	pb = App->physics->CreateChain(0, 0, SkateparkMap7, 8, b2_staticBody, WALL);
+	pb->body->GetFixtureList()->SetFilterData(filterwall);
+	pb = App->physics->CreateBounce(0, 0, SkateparkBounceR, 8, 3.0f, b2_staticBody, BOUNCE);
+	pb->body->GetFixtureList()->SetFilterData(filterbounce);
+	pb = App->physics->CreateBounce(0, 0, SkateparkBounceL, 8, 3.0f, b2_staticBody, BOUNCE);
+	pb->body->GetFixtureList()->SetFilterData(filterbounce);
+	pb = App->physics->CreateChain(0, 0, SkateparkMap8, 22, b2_staticBody, WALL);
+	pb->body->GetFixtureList()->SetFilterData(filterwall);
+	pb = App->physics->CreateBounce(0, 0, SkateparkMap9, 26, 2.0f,b2_staticBody, BOUNCE);
+	pb->body->GetFixtureList()->SetFilterData(filterbounce);
+	pb = App->physics->CreateChain(0, 0, SkateparkMap10, 20, b2_staticBody, WALL);
+	pb->body->GetFixtureList()->SetFilterData(filterwall);
+	pb = App->physics->CreateChain(0, 0, SkateparkMap11, 8, b2_staticBody, WALL);
+	pb->body->GetFixtureList()->SetFilterData(filterwall);
+	pb = App->physics->CreateChain(0, 0, SkateparkMap12, 26, b2_staticBody, WALL);
+	pb->body->GetFixtureList()->SetFilterData(filterwall);
+	pb = App->physics->CreateBounce(0, 0, SkateparkMap13, 20, 1.0f,b2_staticBody, BOUNCE);
+	pb->body->GetFixtureList()->SetFilterData(filterbounce);
+	pb = App->physics->CreateBounce(0, 0, SkateparkMap14, 22, 1.7f, b2_staticBody, BOUNCE);
+	pb->body->GetFixtureList()->SetFilterData(filterbounce);
+	pb = App->physics->CreateBounce(0, 0, SkateparkMap15, 12, 2.0f, b2_staticBody, BOUNCE);
+	pb->body->GetFixtureList()->SetFilterData(filterbounce);
+	pb = App->physics->CreateBounce(0, 0, SkateparkMap16, 8, 2.0f,b2_staticBody, BOUNCE);
+	pb->body->GetFixtureList()->SetFilterData(filterbounce);
 
 	//App->physics->CreateChain(0, 0, SkateparkFlipperDL, 18, b2_staticBody, WALL);//Flippers D= down, T=top, R=right, L=left.
 	//App->physics->CreateChain(0, 0, SkateparkFlipperDR, 18, b2_staticBody, WALL);
 	//App->physics->CreateChain(0, 0, SkateparkFlipperTL, 18, b2_staticBody, WALL);
 	//App->physics->CreateChain(0, 0, SkateparkFlipperTR, 16, b2_staticBody, WALL);
 
-	App->physics->CreateCBounce(388, 577, 28, 1.0f,b2_staticBody, BOUNCE);
-	App->physics->CreateCBounce(106, 465, 28, 0.5f ,b2_staticBody, BOUNCE);
-	App->physics->CreateCBounce(346, 444, 18, 2.0f, b2_staticBody, BOUNCE);
-	App->physics->CreateCBounce(479, 252, 18, 2.0f, b2_staticBody, BOUNCE);
-	App->physics->CreateCBounce(448, 151, 14, 0.5f, b2_staticBody, BOUNCE);
-	App->physics->CreateCBounce(420, 124, 14, 0.5f, b2_staticBody, BOUNCE);
+	pb = App->physics->CreateCBounce(388, 577, 28, 1.0f,b2_staticBody, BOUNCE);
+	pb->body->GetFixtureList()->SetFilterData(filterbounce);
+	pb = App->physics->CreateCBounce(106, 465, 28, 0.5f ,b2_staticBody, BOUNCE);
+	pb->body->GetFixtureList()->SetFilterData(filterbounce);
+	pb = App->physics->CreateCBounce(346, 444, 18, 2.0f, b2_staticBody, BOUNCE);
+	pb->body->GetFixtureList()->SetFilterData(filterbounce);
+	pb = App->physics->CreateCBounce(479, 252, 18, 2.0f, b2_staticBody, BOUNCE);
+	pb->body->GetFixtureList()->SetFilterData(filterbounce);
+	pb = App->physics->CreateCBounce(448, 151, 14, 0.5f, b2_staticBody, BOUNCE);
+	pb->body->GetFixtureList()->SetFilterData(filterbounce);
+	pb = App->physics->CreateCBounce(420, 124, 14, 0.5f, b2_staticBody, BOUNCE);
+	pb->body->GetFixtureList()->SetFilterData(filterbounce);
 
-	//b2ChainShape pinball;
-	//
-	//pinball.CreateChain(test, 8);
-	//pinball.m_type = b2_staticBody;
-	//ricks.add(App->physics->CreateChain(10, 10, prueba, 8));
-	//
-	/*
-		c = ricks.getFirst();
-
-	while(c != NULL)
-	{
-		int x, y;
-		c->data->GetPosition(x, y);
-		App->renderer->Blit(rick, x, y, NULL, 1.0f, c->data->GetRotation());
-		c = c->next;
-	}
-	*/
+	lose=App->physics->CreateRectangleSensor(300, 1180, 300, 500);
+	lose->body->GetFixtureList()->SetFilterData(filterwall);
+	lose->listener = this;
 
 	return ret;
 }
@@ -484,6 +509,8 @@ bool ModuleSceneIntro::CleanUp()
 update_status ModuleSceneIntro::Update()
 {
 	currentTime = SDL_GetTicks();
+
+	
 	
 	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
 	{
@@ -493,7 +520,7 @@ update_status ModuleSceneIntro::Update()
 		if (spring_force<22000 && lastTime + 10<currentTime) {
 			spring_force += 300;
 			lastTime = currentTime;
-			LOG("LastTime=%d, spring_force=%f", currentTime, spring_force);
+			//LOG("LastTime=%d, spring_force=%f", currentTime, spring_force);
 		}
 	}	
 	
@@ -589,17 +616,14 @@ update_status ModuleSceneIntro::Update()
 void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 {
 	int x, y;
-
+	LOG("AAAAAAAAAAAA");
 	
 	if (bodyB->coll == BALL) {
 		App->audio->PlayFx(bonus_fx);
 	}
 
-	if (bodyB->coll == BOUNCE) {
-		LOG("collision with wall");
-		//bodyB->body->ApplyForce(b2Vec2(10,20),  bodyB->body->GetWorldCenter(),false);
-		//bodyB->body->ApplyLinearImpulse(b2Vec2(100, 50000), bodyB->body->GetPosition(), false);
-		//force = true;
+	if (bodyA->body == App->player->ball->body && bodyB->body==lose->body) {
+		//player->loselife
 	}
 	
 

@@ -44,4 +44,5 @@ public:
 	float spring_force = 0;
 	PhysBody* bounce6;
 	PhysBody* bounce7;
+	PhysBody* lose;
 };

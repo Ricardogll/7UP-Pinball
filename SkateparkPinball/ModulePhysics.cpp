@@ -150,6 +150,21 @@ bool ModulePhysics::Start()
 	tl_jointdef.lowerAngle = -10 * DEGTORAD; //cambiar angulos luego de borrar parte del mapa
 	tl_jointdef.upperAngle = 60 * DEGTORAD;
 
+
+
+	//*******
+
+	b2Filter filterflipper;
+	filterflipper.categoryBits = WALL;
+	filterflipper.maskBits = BALL;
+	dr_flipper->body->GetFixtureList()->SetFilterData(filterflipper);
+	dl_flipper->body->GetFixtureList()->SetFilterData(filterflipper);
+	tr_flipper->body->GetFixtureList()->SetFilterData(filterflipper);
+	tl_flipper->body->GetFixtureList()->SetFilterData(filterflipper);
+
+
+
+	//*******
 	tl_revolutejoint = (b2RevoluteJoint*)world->CreateJoint(&tl_jointdef);
 
 	return true;
@@ -166,8 +181,10 @@ update_status ModulePhysics::PreUpdate()
 		{
 			PhysBody* pb1 = (PhysBody*)c->GetFixtureA()->GetBody()->GetUserData();
 			PhysBody* pb2 = (PhysBody*)c->GetFixtureA()->GetBody()->GetUserData();
-			if(pb1 && pb2 && pb1->listener)
+			if (pb1 && pb2 && pb1->listener) {
 				pb1->listener->OnCollision(pb1, pb2);
+				LOG("aaaaaaaaaaa");
+			}
 		}
 	}
 
@@ -226,6 +243,7 @@ PhysBody* ModulePhysics::CreateRectangle(int x, int y, int width, int height, b2
 	pbody->coll = collider_type;
 
 	return pbody;
+
 }
 PhysBody* ModulePhysics::CreateCBounce(int x, int y, int radius, float f_restitution, b2BodyType type, COLL_TYPE collider_type)
 {

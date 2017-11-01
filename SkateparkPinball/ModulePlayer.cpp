@@ -26,9 +26,14 @@ bool ModulePlayer::Start()
 	int y = 406;
 	int radius = 19;
 
-	ball=App->physics->CreateCircle(x, y, radius * 0.5f,b2_dynamicBody, NONE);
-	ball->body->IsBullet();
+	ball=App->physics->CreateCircle(x, y, radius * 0.5f,b2_dynamicBody, BALL);
+	ball->body->SetBullet(true);
 	
+	b2Filter ballfilter;
+	ballfilter.categoryBits = BALL;
+	ballfilter.maskBits = -1;
+	ball->body->GetFixtureList()->SetFilterData(ballfilter);
+
 	LOG("Loading player");
 	return true;
 }
