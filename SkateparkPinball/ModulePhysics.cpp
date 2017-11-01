@@ -53,7 +53,7 @@ bool ModulePhysics::Start()
 	//FLIPPERS D=down T=top R=right L=left
 	b2Vec2 flipperDR[9];
 	flipperDR[0] = { PIXEL_TO_METERS(306), PIXEL_TO_METERS(797) };
-	flipperDR[1] = { PIXEL_TO_METERS(368), PIXEL_TO_METERS(785) };
+	flipperDR[1] = { PIXEL_TO_METERS(376), PIXEL_TO_METERS(781) };
 	flipperDR[2] = { PIXEL_TO_METERS(379), PIXEL_TO_METERS(790) };
 	flipperDR[3] = { PIXEL_TO_METERS(383), PIXEL_TO_METERS(799) };
 	flipperDR[4] = { PIXEL_TO_METERS(380), PIXEL_TO_METERS(810) };
@@ -78,7 +78,7 @@ bool ModulePhysics::Start()
 
 
 	b2Vec2 flipperDL[9];
-	flipperDL[0] = { PIXEL_TO_METERS(213), PIXEL_TO_METERS(785) };
+	flipperDL[0] = { PIXEL_TO_METERS(206), PIXEL_TO_METERS(786) };
 	flipperDL[1] = { PIXEL_TO_METERS(203), PIXEL_TO_METERS(791) };
 	flipperDL[2] = { PIXEL_TO_METERS(200), PIXEL_TO_METERS(801) };
 	flipperDL[3] = { PIXEL_TO_METERS(202), PIXEL_TO_METERS(810) };
@@ -370,13 +370,13 @@ PhysBody* ModulePhysics::CreatePolygon(b2Vec2 vertices[], uint num_vecs, float a
 	fixture.density = 1.0f;
 	fixture.shape = &polygon;
 	b->CreateFixture(&fixture);
-
+	
 	PhysBody* pbody = new PhysBody();
 	pbody->body = b;
 	b->SetUserData(pbody);
 	pbody->width = 0;
 	pbody->height = 0;
-
+	
 	return pbody;
 }
 

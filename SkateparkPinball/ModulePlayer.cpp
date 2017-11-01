@@ -4,6 +4,7 @@
 #include "ModulePhysics.h"
 #include"ModuleRender.h"
 #include "ModuleTextures.h"
+#include "ModuleInput.h"
 
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -26,7 +27,7 @@ bool ModulePlayer::Start()
 	int radius = 19;
 
 	ball=App->physics->CreateCircle(x, y, radius * 0.5f,b2_dynamicBody, NONE);
-
+	ball->body->IsBullet();
 	
 	LOG("Loading player");
 	return true;
@@ -44,6 +45,20 @@ bool ModulePlayer::CleanUp()
 // Update: draw background
 update_status ModulePlayer::Update()
 {
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+		App->physics->dl_revolutejoint->GetBodyA()->ApplyAngularImpulse(-0.75, true);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
+		App->physics->dr_revolutejoint->GetBodyA()->ApplyAngularImpulse(0.75f, true);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) {
+		App->physics->tl_revolutejoint->GetBodyA()->ApplyAngularImpulse(-0.75, true);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT) {
+		App->physics->tr_revolutejoint->GetBodyA()->ApplyAngularImpulse(0.75f, true);
+	}
+
+
 	int x, y;
 	ball->GetPosition(x, y);
 	App->renderer->Blit(circle, x, y, NULL, 1.0f, ball->GetRotation());

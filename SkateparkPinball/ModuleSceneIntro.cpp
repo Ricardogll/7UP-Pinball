@@ -117,7 +117,7 @@ bool ModuleSceneIntro::Start()
 		62, 351,
 		86, 340,
 		45, 318,
-		32, 304,
+		25, 304,
 		34, 286,
 		52, 270,
 		20, 227,
@@ -176,9 +176,9 @@ bool ModuleSceneIntro::Start()
 		440, 740,
 		412, 761,
 		378, 779,
-		390, 783,
-		392, 791,
-		388, 803,
+		401, 777,
+		398, 790,
+		398, 789,
 		393, 798,
 		422, 771,
 		452, 740,
@@ -330,14 +330,14 @@ bool ModuleSceneIntro::Start()
 	//muelle2 = App->physics->CreateRectangle(560, 527, 10, 10, b2_staticBody,WALL);
 	
 	muelle = App->physics->CreateRectangle(555, 517, 31, 100, b2_dynamicBody, WALL);
-	muelle2 = App->physics->CreateRectangle(564, 567, 10, 10, b2_staticBody, WALL);
+	muelle2 = App->physics->CreateRectangle(564, 592, 10, 10, b2_staticBody, WALL);
 
 	b2DistanceJointDef spring;
 	spring.type = e_distanceJoint;
 	spring.bodyA = muelle->body;
 	spring.bodyB = muelle2->body;
-	spring.localAnchorA.Set(0, 0);// 534, 567);
-	spring.localAnchorB.Set(0, 0);//563, 532);
+	spring.localAnchorA.Set(PIXEL_TO_METERS(0), PIXEL_TO_METERS(25));// 534, 567);
+	spring.localAnchorB.Set(PIXEL_TO_METERS(0), 0);//563, 532);
 	spring.length = 0.0f;
 	spring.frequencyHz = 20.0f;
 	spring.dampingRatio = 1;

@@ -63,6 +63,11 @@ public:
 	void BeginContact(b2Contact* contact);
 
 	b2World* world;
+
+	b2RevoluteJoint* tl_revolutejoint;
+	b2RevoluteJoint* tr_revolutejoint;
+	b2RevoluteJoint* dl_revolutejoint;
+	b2RevoluteJoint* dr_revolutejoint;
 private:
 
 	bool debug;
@@ -72,17 +77,17 @@ private:
 
 	PhysBody* dr_flipper;
 	PhysBody* dr_flipper_anchor;
-	b2RevoluteJoint* dr_revolutejoint;
+	
 
 	PhysBody* dl_flipper;
 	PhysBody* dl_flipper_anchor;
-	b2RevoluteJoint* dl_revolutejoint;
+
 
 	PhysBody* tr_flipper;
 	PhysBody* tr_flipper_anchor;
-	b2RevoluteJoint* tr_revolutejoint;
+	
 
 	PhysBody* tl_flipper;
 	PhysBody* tl_flipper_anchor;
-	b2RevoluteJoint* tl_revolutejoint;
+	
 };
