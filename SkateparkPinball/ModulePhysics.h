@@ -20,6 +20,7 @@ enum COLL_TYPE {
 	BALL=0x0002,
 	WALL=0x0003,
 	BOUNCE=0x0004,
+	DEAD=0x0005,
 	ALL = -1,
 };
 
@@ -55,7 +56,7 @@ public:
 
 	PhysBody* CreateCircle(int x, int y, int radius, b2BodyType type, COLL_TYPE collider_type);
 	PhysBody* CreateRectangle(int x, int y, int width, int height, b2BodyType type, COLL_TYPE collider_type);
-	PhysBody* CreateRectangleSensor(int x, int y, int width, int height);
+	PhysBody* CreateRectangleSensor(int x, int y, int width, int height, COLL_TYPE collider_type);
 	PhysBody* CreateChain(int x, int y, int* points, int size, b2BodyType type, COLL_TYPE collider_type);
 	PhysBody* CreateBounce(int x, int y, int* points, int size, float f_restitution, b2BodyType type, COLL_TYPE collider_type);
 	PhysBody* CreateCBounce(int x, int y, int radius, float f_restitution, b2BodyType type, COLL_TYPE collider_type);

@@ -44,10 +44,13 @@ public:
 	bool Start();
 	update_status Update();
 	bool CleanUp();
+	void loselife();
+
+	bool lose_life = false;
 
 	PhysBody* ball;
 private:
-	
+	uint lifes=3;                                                                                                      
 	SDL_Texture* circle;
 	b2World* world;
 	b2MouseJoint* mouse_joint;

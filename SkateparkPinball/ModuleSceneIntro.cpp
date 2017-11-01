@@ -486,7 +486,7 @@ bool ModuleSceneIntro::Start()
 	pb = App->physics->CreateCBounce(420, 124, 14, 0.5f, b2_staticBody, BOUNCE);
 	pb->body->GetFixtureList()->SetFilterData(filterbounce);
 
-	lose=App->physics->CreateRectangleSensor(300, 1180, 300, 500);
+	lose=App->physics->CreateRectangleSensor(300, 1280, 300, 500, DEAD);
 	lose->body->GetFixtureList()->SetFilterData(filterwall);
 	lose->listener = this;
 
@@ -616,14 +616,17 @@ update_status ModuleSceneIntro::Update()
 void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 {
 	int x, y;
-	LOG("AAAAAAAAAAAA");
 	
-	if (bodyB->coll == BALL) {
+	
+	if (bodyA->body==App->player->ball->body){//bodyB->coll == BALL) {
 		App->audio->PlayFx(bonus_fx);
 	}
 
-	if (bodyA->body == App->player->ball->body && bodyB->body==lose->body) {
-		//player->loselife
+	if ((bodyA->body == App->player->ball->body && bodyB->body==lose->body)||(bodyA->coll==BALL && bodyB->coll==DEAD)
+		|| (bodyB->coll == BALL && bodyA->coll == DEAD)) {
+		LOG("ASDASDDSASAD");
+		//App->player->loselife();
+		App->player->lose_life = true;
 	}
 	
 

@@ -183,7 +183,7 @@ update_status ModulePhysics::PreUpdate()
 			PhysBody* pb2 = (PhysBody*)c->GetFixtureA()->GetBody()->GetUserData();
 			if (pb1 && pb2 && pb1->listener) {
 				pb1->listener->OnCollision(pb1, pb2);
-				LOG("aaaaaaaaaaa");
+			
 			}
 		}
 	}
@@ -310,7 +310,7 @@ PhysBody* ModulePhysics::CreateBounce(int x, int y, int* points, int size, float
 }
 
 
-PhysBody* ModulePhysics::CreateRectangleSensor(int x, int y, int width, int height)
+PhysBody* ModulePhysics::CreateRectangleSensor(int x, int y, int width, int height,COLL_TYPE collider_type)
 {
 	b2BodyDef body;
 	body.type = b2_staticBody;
@@ -333,7 +333,7 @@ PhysBody* ModulePhysics::CreateRectangleSensor(int x, int y, int width, int heig
 	b->SetUserData(pbody);
 	pbody->width = width;
 	pbody->height = height;
-
+	pbody->coll = collider_type;
 	return pbody;
 }
 

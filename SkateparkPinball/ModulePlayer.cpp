@@ -28,7 +28,7 @@ bool ModulePlayer::Start()
 
 	ball=App->physics->CreateCircle(x, y, radius * 0.5f,b2_dynamicBody, BALL);
 	ball->body->SetBullet(true);
-	
+	ball->listener = this;
 	b2Filter ballfilter;
 	ballfilter.categoryBits = BALL;
 	ballfilter.maskBits = -1;
@@ -68,8 +68,41 @@ update_status ModulePlayer::Update()
 	ball->GetPosition(x, y);
 	App->renderer->Blit(circle, x, y, NULL, 1.0f, ball->GetRotation());
 
+	if (lose_life && ball!=nullptr)
+		loselife();
+
+
 	return UPDATE_CONTINUE;
 }
 
 
+void ModulePlayer::loselife() {
+
+	/*App->physics->world->DestroyBody(ball->body);
+	ball = nullptr;*/
+
+	if (lifes != 0) {
+
+		App->physics->world->DestroyBody(ball->body);
+		ball = nullptr;
+
+
+		int x = 568;
+		int y = 406;
+		int radius = 19;
+
+		ball = App->physics->CreateCircle(x, y, radius * 0.5f, b2_dynamicBody, BALL);
+		ball->body->SetBullet(true);
+		ball->listener = this;
+		b2Filter ballfilter;
+		ballfilter.categoryBits = BALL;
+		ballfilter.maskBits = -1;
+		ball->body->GetFixtureList()->SetFilterData(ballfilter);
+
+		lifes -= 1;
+		LOG("LIFEEEEEEEEEEEEEEEEEE");
+	}
+
+	lose_life = false;
+}
 
