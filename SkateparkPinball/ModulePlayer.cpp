@@ -50,18 +50,15 @@ bool ModulePlayer::CleanUp()
 // Update: draw background
 update_status ModulePlayer::Update()
 {
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) {
 		App->physics->dl_revolutejoint->GetBodyA()->ApplyAngularImpulse(-0.75, true);
-	}
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
-		App->physics->dr_revolutejoint->GetBodyA()->ApplyAngularImpulse(0.75f, true);
-	}
-	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT) {
 		App->physics->tl_revolutejoint->GetBodyA()->ApplyAngularImpulse(-0.75, true);
 	}
-	if (App->input->GetKey(SDL_SCANCODE_E) == KEY_REPEAT) {
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) {
+		App->physics->dr_revolutejoint->GetBodyA()->ApplyAngularImpulse(0.75f, true);
 		App->physics->tr_revolutejoint->GetBodyA()->ApplyAngularImpulse(0.75f, true);
 	}
+	
 
 
 	int x, y;

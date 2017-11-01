@@ -27,8 +27,8 @@ public:
 	bool sensed;
 
 	
-	SDL_Texture* box;
-	SDL_Texture* rick;
+	SDL_Texture* flipper2;
+	SDL_Texture* flipper1;
 	SDL_Texture* map;
 	SDL_Texture* spring;
 	SDL_Texture* power;

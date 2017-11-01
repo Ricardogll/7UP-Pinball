@@ -30,8 +30,8 @@ bool ModuleSceneIntro::Start()
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 	spring = App->textures->Load("pinball/muelle.png");
-	box = App->textures->Load("pinball/crate.png"); 
-	rick = App->textures->Load("pinball/rick_head.png");
+	flipper1 = App->textures->Load("pinball/flipper.png"); 
+	flipper2 = App->textures->Load("pinball/flipperl.png");
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
 	map = App->textures->Load("pinball/SkateparkMap.png");
 	power = App->textures->Load("pinball/Power.png");
@@ -428,6 +428,8 @@ bool ModuleSceneIntro::Start()
 	b2Filter filterbounce;
 	filterbounce.categoryBits = BOUNCE;
 	filterbounce.maskBits = BALL;
+	//circle para que rebote bola en lado izquierdo
+	App->physics->CreateCBounce(20, 602, 18, 2.0f, b2_staticBody, BOUNCE);
 	//App->physics->CreateChain(0, 0, SkateparkMap, 88, b2_staticBody,WALL);
 	pb=App->physics->CreateChain(0, 0, SkateparkMap, 104, b2_staticBody, WALL);
 	pb->body->GetFixtureList()->SetFilterData(filterwall);
@@ -481,9 +483,9 @@ bool ModuleSceneIntro::Start()
 	pb->body->GetFixtureList()->SetFilterData(filterbounce);
 	pb = App->physics->CreateCBounce(479, 252, 18, 2.0f, b2_staticBody, BOUNCE);
 	pb->body->GetFixtureList()->SetFilterData(filterbounce);
-	pb = App->physics->CreateCBounce(448, 151, 14, 0.5f, b2_staticBody, BOUNCE);
+	pb = App->physics->CreateCBounce(448, 151, 14, 1.0f, b2_staticBody, BOUNCE);
 	pb->body->GetFixtureList()->SetFilterData(filterbounce);
-	pb = App->physics->CreateCBounce(420, 124, 14, 0.5f, b2_staticBody, BOUNCE);
+	pb = App->physics->CreateCBounce(420, 124, 14, 1.0f, b2_staticBody, BOUNCE);
 	pb->body->GetFixtureList()->SetFilterData(filterbounce);
 
 	lose=App->physics->CreateRectangleSensor(300, 1280, 300, 500, DEAD);
@@ -498,9 +500,11 @@ bool ModuleSceneIntro::CleanUp()
 {
 	LOG("Unloading Intro scene");
 	
-	App->textures->Unload(box);
-	App->textures->Unload(rick);
+	App->textures->Unload(flipper1);
+	App->textures->Unload(flipper2);
 	App->textures->Unload(map);
+	App->textures->Unload(power);
+	App->textures->Unload(spring);
 
 	return true;
 }
@@ -553,45 +557,6 @@ update_status ModuleSceneIntro::Update()
 	// All draw functions ------------------------------------------------------
 	p2List_item<PhysBody*>* c = circles.getFirst();
 
-	while(c != NULL)
-	{
-		/*if (force) {
-			c->data->body->ApplyLinearImpulse(b2Vec2(1, -5), c->data->body->GetWorldCenter(), false);
-			
-			LOG("impulse");
-			lastTime = currentTime;
-			
-		}*/
-		c = c->next;
-
-	}
-
-	c = boxes.getFirst();
-
-	while(c != NULL)
-	{
-		int x, y;
-		c->data->GetPosition(x, y);
-		App->renderer->Blit(box, x, y, NULL, 1.0f, c->data->GetRotation());
-		if(ray_on)
-		{
-			int hit = c->data->RayCast(ray.x, ray.y, mouse.x, mouse.y, normal.x, normal.y);
-			if(hit >= 0)
-				ray_hit = hit;
-		}
-		c = c->next;
-	}
-
-	c = ricks.getFirst();
-
-	while(c != NULL)
-	{
-		int x, y;
-		c->data->GetPosition(x, y);
-		App->renderer->Blit(rick, x, y, NULL, 1.0f, c->data->GetRotation());
-		c = c->next;
-	}
-
 	// ray -----------------
 	if(ray_on == true)
 	{
@@ -607,8 +572,12 @@ update_status ModuleSceneIntro::Update()
 
 	int x, y;
 	muelle->GetPosition(x, y);
-	App->renderer->Blit(spring,x, y, NULL, 1.0f, muelle->GetRotation());
+	App->renderer->Blit(spring, x, y, NULL, 1.0f, muelle->GetRotation());
 	App->renderer->Blit(power, 548, 619, NULL, 1.0f);
+	App->renderer->Blit(flipper1, 309, 780, NULL, 1.0f, App->physics->dr_flipper->GetRotation(), 64, 16);
+	App->renderer->Blit(flipper2, 195, 780, NULL, 1.0f, App->physics->dl_flipper->GetRotation(), 18, 19);
+	App->renderer->Blit(flipper1, 420, 438, NULL, 1.0f, App->physics->tr_flipper->GetRotation() - 20, 64, 20);
+	App->renderer->Blit(flipper2, 28, 285, NULL, 1.0f, App->physics->tl_flipper->GetRotation() + 32, 18, 18);
 
 	return UPDATE_CONTINUE;
 }

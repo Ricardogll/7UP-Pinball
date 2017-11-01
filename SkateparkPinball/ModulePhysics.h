@@ -78,19 +78,24 @@ private:
 	b2MouseJoint* mouse_joint;
 	b2Body* ground;
 
-	PhysBody* dr_flipper;
+	
 	PhysBody* dr_flipper_anchor;
 	
 
-	PhysBody* dl_flipper;
+	
 	PhysBody* dl_flipper_anchor;
 
 
-	PhysBody* tr_flipper;
+	
 	PhysBody* tr_flipper_anchor;
 	
 
-	PhysBody* tl_flipper;
-	PhysBody* tl_flipper_anchor;
 	
+	PhysBody* tl_flipper_anchor;
+public:
+	PhysBody* tl_flipper;
+	PhysBody* dr_flipper;
+	PhysBody* dl_flipper;
+	PhysBody* tr_flipper;
+
 };
