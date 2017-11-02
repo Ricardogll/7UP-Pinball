@@ -47,7 +47,7 @@ public:
 	void loselife();
 
 	bool lose_life = false;
-
+	int points = 0;
 	PhysBody* ball;
 private:
 	uint lifes=3;                                                                                                      

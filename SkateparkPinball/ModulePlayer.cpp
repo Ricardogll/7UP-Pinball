@@ -5,6 +5,9 @@
 #include"ModuleRender.h"
 #include "ModuleTextures.h"
 #include "ModuleInput.h"
+#include <string.h>
+#include <string>
+#include "ModuleWindow.h"
 
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -57,6 +60,7 @@ update_status ModulePlayer::Update()
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) {
 		App->physics->dr_revolutejoint->GetBodyA()->ApplyAngularImpulse(0.75f, true);
 		App->physics->tr_revolutejoint->GetBodyA()->ApplyAngularImpulse(0.75f, true);
+		points += 10;
 	}
 	
 
@@ -68,6 +72,15 @@ update_status ModulePlayer::Update()
 	if (lose_life && ball!=nullptr)
 		loselife();
 
+
+	char const *title = "SKATEPARK PINBALL!   Score: ";
+	
+//	LOG("%c", asd);
+	//int asdf = points;
+	std::string s =title+std::to_string(points);
+	title = s.c_str();
+	//LOG("%s", asd);
+	App->window->SetTitle(title);
 
 	return UPDATE_CONTINUE;
 }
