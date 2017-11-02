@@ -429,7 +429,9 @@ bool ModuleSceneIntro::Start()
 	filterbounce.categoryBits = BOUNCE;
 	filterbounce.maskBits = BALL;
 	//circle para que rebote bola en lado izquierdo
-	App->physics->CreateCBounce(20, 602, 18, 2.0f, b2_staticBody, BOUNCE);
+	pb=App->physics->CreateCBounce(20, 602, 18, 2.0f, b2_staticBody, BOUNCE);
+	pb->body->GetFixtureList()->SetFilterData(filterbounce);
+	pb->listener = this;
 	//App->physics->CreateChain(0, 0, SkateparkMap, 88, b2_staticBody,WALL);
 	pb=App->physics->CreateChain(0, 0, SkateparkMap, 104, b2_staticBody, WALL);
 	pb->body->GetFixtureList()->SetFilterData(filterwall);
@@ -449,12 +451,15 @@ bool ModuleSceneIntro::Start()
 	pb->body->GetFixtureList()->SetFilterData(filterwall);
 	pb = App->physics->CreateBounce(0, 0, SkateparkBounceR, 8, 3.0f, b2_staticBody, BOUNCE);
 	pb->body->GetFixtureList()->SetFilterData(filterbounce);
+	pb->listener = this;
 	pb = App->physics->CreateBounce(0, 0, SkateparkBounceL, 8, 3.0f, b2_staticBody, BOUNCE);
 	pb->body->GetFixtureList()->SetFilterData(filterbounce);
+	pb->listener = this;
 	pb = App->physics->CreateChain(0, 0, SkateparkMap8, 22, b2_staticBody, WALL);
 	pb->body->GetFixtureList()->SetFilterData(filterwall);
 	pb = App->physics->CreateBounce(0, 0, SkateparkMap9, 26, 2.0f,b2_staticBody, BOUNCE);
 	pb->body->GetFixtureList()->SetFilterData(filterbounce);
+	pb->listener = this;
 	pb = App->physics->CreateChain(0, 0, SkateparkMap10, 20, b2_staticBody, WALL);
 	pb->body->GetFixtureList()->SetFilterData(filterwall);
 	pb = App->physics->CreateChain(0, 0, SkateparkMap11, 8, b2_staticBody, WALL);
@@ -463,13 +468,16 @@ bool ModuleSceneIntro::Start()
 	pb->body->GetFixtureList()->SetFilterData(filterwall);
 	pb = App->physics->CreateBounce(0, 0, SkateparkMap13, 20, 1.0f,b2_staticBody, BOUNCE);
 	pb->body->GetFixtureList()->SetFilterData(filterbounce);
+	pb->listener = this;
 	pb = App->physics->CreateBounce(0, 0, SkateparkMap14, 22, 1.7f, b2_staticBody, BOUNCE);
 	pb->body->GetFixtureList()->SetFilterData(filterbounce);
+	pb->listener = this;
 	pb = App->physics->CreateBounce(0, 0, SkateparkMap15, 12, 2.0f, b2_staticBody, BOUNCE);
 	pb->body->GetFixtureList()->SetFilterData(filterbounce);
+	pb->listener = this;
 	pb = App->physics->CreateBounce(0, 0, SkateparkMap16, 8, 2.0f,b2_staticBody, BOUNCE);
 	pb->body->GetFixtureList()->SetFilterData(filterbounce);
-
+	pb->listener = this;
 	//App->physics->CreateChain(0, 0, SkateparkFlipperDL, 18, b2_staticBody, WALL);//Flippers D= down, T=top, R=right, L=left.
 	//App->physics->CreateChain(0, 0, SkateparkFlipperDR, 18, b2_staticBody, WALL);
 	//App->physics->CreateChain(0, 0, SkateparkFlipperTL, 18, b2_staticBody, WALL);
@@ -477,20 +485,34 @@ bool ModuleSceneIntro::Start()
 
 	pb = App->physics->CreateCBounce(388, 577, 28, 1.0f,b2_staticBody, BOUNCE);
 	pb->body->GetFixtureList()->SetFilterData(filterbounce);
+	pb->listener = this;
 	pb = App->physics->CreateCBounce(106, 465, 28, 0.5f ,b2_staticBody, BOUNCE);
 	pb->body->GetFixtureList()->SetFilterData(filterbounce);
+	pb->listener = this;
 	pb = App->physics->CreateCBounce(346, 444, 18, 2.0f, b2_staticBody, BOUNCE);
 	pb->body->GetFixtureList()->SetFilterData(filterbounce);
+	pb->listener = this;
 	pb = App->physics->CreateCBounce(479, 252, 18, 2.0f, b2_staticBody, BOUNCE);
 	pb->body->GetFixtureList()->SetFilterData(filterbounce);
+	pb->listener = this;
 	pb = App->physics->CreateCBounce(448, 151, 14, 1.0f, b2_staticBody, BOUNCE);
 	pb->body->GetFixtureList()->SetFilterData(filterbounce);
+	pb->listener = this;
 	pb = App->physics->CreateCBounce(420, 124, 14, 1.0f, b2_staticBody, BOUNCE);
 	pb->body->GetFixtureList()->SetFilterData(filterbounce);
+	pb->listener = this;
 
 	lose=App->physics->CreateRectangleSensor(300, 1280, 300, 500, DEAD);
 	lose->body->GetFixtureList()->SetFilterData(filterwall);
 	lose->listener = this;
+
+	/*b2Filter filterstart;
+	filterwall.categoryBits = START;
+	filterwall.maskBits = BALL;
+
+	start = App->physics->CreateRectangleSensor(571, 527, 39, 401, START);
+	start->body->GetFixtureList()->SetFilterData(filterstart);
+	start->listener = this;*/
 
 	return ret;
 }
@@ -598,7 +620,13 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		App->player->lose_life = true;
 	}
 	
-
+	if ((bodyB->coll == BALL && bodyA->coll == BOUNCE)|| (bodyA->coll == BALL && bodyB->coll == BOUNCE)) {
+		LOG("POOOOOOOOOOOOOOOIIIIIIIIIIIIIINTS");
+		App->player->points += 100;
+	}
+	/*if (bodyA->coll == BALL && bodyB->coll == START) {
+		LOG("STAAAAAAAAAAAAAAAAAAAAAART");
+	}*/
 	
 	/*
 	if(bodyA)

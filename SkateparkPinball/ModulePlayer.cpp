@@ -60,7 +60,15 @@ update_status ModulePlayer::Update()
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) {
 		App->physics->dr_revolutejoint->GetBodyA()->ApplyAngularImpulse(0.75f, true);
 		App->physics->tr_revolutejoint->GetBodyA()->ApplyAngularImpulse(0.75f, true);
-		points += 10;
+		
+	}
+	if (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN) {
+		lifes = 3;
+		loselife();
+		/*if (highscore < points)
+			highscore = points;*/
+		points = 0;
+
 	}
 	
 
@@ -73,11 +81,14 @@ update_status ModulePlayer::Update()
 		loselife();
 
 
+	//**********WINDOW TITLE
+
 	char const *title = "SKATEPARK PINBALL!   Score: ";
-	
+	char const *lifeschar = "  Balls left: ";
+	char const *highsc = "  Highscore: ";
 //	LOG("%c", asd);
 	//int asdf = points;
-	std::string s =title+std::to_string(points);
+	std::string s = title + std::to_string(points) + lifeschar + std::to_string(lifes) + highsc + std::to_string(highscore);
 	title = s.c_str();
 	//LOG("%s", asd);
 	App->window->SetTitle(title);
@@ -110,7 +121,11 @@ void ModulePlayer::loselife() {
 		ball->body->GetFixtureList()->SetFilterData(ballfilter);
 
 		lifes -= 1;
-		LOG("LIFEEEEEEEEEEEEEEEEEE");
+		
+	}
+	else if (lifes == 0) {
+		if (highscore < points)
+			highscore = points;
 	}
 
 	lose_life = false;

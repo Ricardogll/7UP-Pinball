@@ -21,6 +21,7 @@ enum COLL_TYPE {
 	WALL=0x0003,
 	BOUNCE=0x0004,
 	DEAD=0x0005,
+	START=0x0006,
 	ALL = -1,
 };
 

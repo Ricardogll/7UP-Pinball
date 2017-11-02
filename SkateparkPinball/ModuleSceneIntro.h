@@ -45,4 +45,5 @@ public:
 	PhysBody* bounce6;
 	PhysBody* bounce7;
 	PhysBody* lose;
+	PhysBody* start;
 };

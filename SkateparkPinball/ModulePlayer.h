@@ -47,10 +47,12 @@ public:
 	void loselife();
 
 	bool lose_life = false;
+	bool ball_in_start = true;
 	int points = 0;
+	int highscore = 0;
 	PhysBody* ball;
 private:
-	uint lifes=3;                                                                                                      
+	int lifes = 2;
 	SDL_Texture* circle;
 	b2World* world;
 	b2MouseJoint* mouse_joint;
