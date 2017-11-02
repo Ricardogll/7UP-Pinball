@@ -25,7 +25,7 @@ public:
 
 	PhysBody* sensor;
 	bool sensed;
-	SDL_Texture* gameover;
+	//SDL_Texture* gameover;
 	SDL_Texture* intro;
 	SDL_Texture* flipper2;
 	SDL_Texture* flipper1;
@@ -34,6 +34,11 @@ public:
 	SDL_Texture* power;
 	uint bonus_fx;
 	uint spring_fx;
+	uint flipper_fx;
+	uint start_fx;
+	uint bounce_fx;
+	uint wall_fx;
+	uint skatepark_music;
 	p2Point<int> ray;
 	bool ray_on;
 	//bool force = false;
@@ -48,5 +53,5 @@ public:
 	PhysBody* bounce7;
 	PhysBody* lose;
 	PhysBody* start;
-	bool flag=false;
+	bool can_play = false;
 };

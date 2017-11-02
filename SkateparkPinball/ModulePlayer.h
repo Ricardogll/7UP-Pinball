@@ -51,7 +51,7 @@ public:
 	int points = 0;
 	int highscore = 0;
 	PhysBody* ball;
-	int lifes = 2;
+	int lifes = 3;
 	
 private:
 	

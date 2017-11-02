@@ -28,9 +28,9 @@ bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
-	gameover = App->textures->Load("pinball/gameover.png");
+	//gameover = App->textures->Load("pinball/gameover.png");
 	intro = App->textures->Load("pinball/start.png");
-	App->player->Disable();
+	//App->player->Disable();
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 	spring = App->textures->Load("pinball/muelle.png");
@@ -40,8 +40,13 @@ bool ModuleSceneIntro::Start()
 	power = App->textures->Load("pinball/Power.png");
 
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
-	spring_fx = App->audio->LoadFx("pinball/springfx1.wav");
-
+	spring_fx = App->audio->LoadFx("pinball/springfx2.wav");
+	flipper_fx = App->audio->LoadFx("pinball/FlipperUp1.wav");
+	start_fx = App->audio->LoadFx("pinball/CoinIn.wav");
+	bounce_fx = App->audio->LoadFx("pinball/Bumper11.wav");
+	wall_fx = App->audio->LoadFx("pinball/BallCollision1.wav");
+	//skatepark_music = App->audio->LoadFx("pinball/skateparkmusic.ogg");
+	App->audio->PlayMusic("pinball/skateparkmusic.ogg");
 	//sensor = App->physics->CreateRectangleSensor(SCREEN_WIDTH / 2, SCREEN_HEIGHT, SCREEN_WIDTH, 50);
 
 	/*int prueba[8] = { 10,10,
@@ -106,7 +111,7 @@ bool ModuleSceneIntro::Start()
 	//	33, 375,
 	//	67, 351
 	//};
-	int SkateparkMap[104] = {
+	int SkateparkMap[106] = {
 		23, 953,
 		225, 934,
 		148, 908,
@@ -129,7 +134,8 @@ bool ModuleSceneIntro::Start()
 		10, 173,
 		36, 105,
 		99, 49,
-		210, 6,
+		162,12,
+		208, 3,
 		346, 5,
 		470, 48,
 		540, 112,
@@ -316,10 +322,9 @@ bool ModuleSceneIntro::Start()
 		354, 115,
 		358, 109
 	};
-	int SkateparkMap15[12] = {
+	int SkateparkMap15[10] = {
 		201, 41,
-		222, 32,
-		308, 31,
+		262, 32,
 		326, 37,
 		317, 46,
 		211, 49
@@ -438,22 +443,29 @@ bool ModuleSceneIntro::Start()
 	pb->body->GetFixtureList()->SetFilterData(filterbounce);
 	pb->listener = this;
 	//App->physics->CreateChain(0, 0, SkateparkMap, 88, b2_staticBody,WALL);
-	pb=App->physics->CreateChain(0, 0, SkateparkMap, 104, b2_staticBody, WALL);
+	pb=App->physics->CreateChain(0, 0, SkateparkMap, 106, b2_staticBody, WALL);
 	pb->body->GetFixtureList()->SetFilterData(filterwall);
+	pb->listener = this;
 	pb = App->physics->CreateChain(0, 0, SkateparkMap2, 24, b2_staticBody, WALL);
 	pb->body->GetFixtureList()->SetFilterData(filterwall);
+	pb->listener = this;
 	pb = App->physics->CreateChain(0, 0, SkateparkMap3, 30, b2_staticBody, WALL);
 	pb->body->GetFixtureList()->SetFilterData(filterwall);
+	pb->listener = this;
 	pb = App->physics->CreateChain(0, 0, SkateparkMap4, 20, b2_staticBody, WALL);
 	pb->body->GetFixtureList()->SetFilterData(filterwall);
+	pb->listener = this;
 	pb = App->physics->CreateChain(0, 0, SkateparkMap5, 22, b2_staticBody, WALL);
 	pb->body->GetFixtureList()->SetFilterData(filterwall);
+	pb->listener = this;
 	//bounce6=App->physics->CreateChain(0, 0, SkateparkMap6, 8, b2_staticBody, BOUNCE);
 	//bounce7=App->physics->CreateChain(0, 0, SkateparkMap7, 8, b2_staticBody, BOUNCE);
 	pb = App->physics->CreateChain(0, 0, SkateparkMap6, 8, b2_staticBody, WALL);
 	pb->body->GetFixtureList()->SetFilterData(filterwall);
+	pb->listener = this;
 	pb = App->physics->CreateChain(0, 0, SkateparkMap7, 8, b2_staticBody, WALL);
 	pb->body->GetFixtureList()->SetFilterData(filterwall);
+	pb->listener = this;
 	pb = App->physics->CreateBounce(0, 0, SkateparkBounceR, 8, 3.0f, b2_staticBody, BOUNCE);
 	pb->body->GetFixtureList()->SetFilterData(filterbounce);
 	pb->listener = this;
@@ -462,22 +474,26 @@ bool ModuleSceneIntro::Start()
 	pb->listener = this;
 	pb = App->physics->CreateChain(0, 0, SkateparkMap8, 22, b2_staticBody, WALL);
 	pb->body->GetFixtureList()->SetFilterData(filterwall);
+	pb->listener = this;
 	pb = App->physics->CreateBounce(0, 0, SkateparkMap9, 26, 2.0f,b2_staticBody, BOUNCE);
 	pb->body->GetFixtureList()->SetFilterData(filterbounce);
 	pb->listener = this;
 	pb = App->physics->CreateChain(0, 0, SkateparkMap10, 20, b2_staticBody, WALL);
 	pb->body->GetFixtureList()->SetFilterData(filterwall);
+	pb->listener = this;
 	pb = App->physics->CreateChain(0, 0, SkateparkMap11, 8, b2_staticBody, WALL);
 	pb->body->GetFixtureList()->SetFilterData(filterwall);
+	pb->listener = this;
 	pb = App->physics->CreateChain(0, 0, SkateparkMap12, 26, b2_staticBody, WALL);
 	pb->body->GetFixtureList()->SetFilterData(filterwall);
+	pb->listener = this;
 	pb = App->physics->CreateBounce(0, 0, SkateparkMap13, 20, 1.0f,b2_staticBody, BOUNCE);
 	pb->body->GetFixtureList()->SetFilterData(filterbounce);
 	pb->listener = this;
 	pb = App->physics->CreateBounce(0, 0, SkateparkMap14, 22, 1.7f, b2_staticBody, BOUNCE);
 	pb->body->GetFixtureList()->SetFilterData(filterbounce);
 	pb->listener = this;
-	pb = App->physics->CreateBounce(0, 0, SkateparkMap15, 12, 2.0f, b2_staticBody, BOUNCE);
+	pb = App->physics->CreateBounce(0, 0, SkateparkMap15, 10, 2.0f, b2_staticBody, BOUNCE);
 	pb->body->GetFixtureList()->SetFilterData(filterbounce);
 	pb->listener = this;
 	pb = App->physics->CreateBounce(0, 0, SkateparkMap16, 8, 2.0f,b2_staticBody, BOUNCE);
@@ -543,7 +559,7 @@ update_status ModuleSceneIntro::Update()
 
 	//http://www.vpforums.org/Tutorials/Sounds/SndLib1.html
 	
-	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
+	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT && can_play)
 	{
 		//variable que vaya aumentando en el update y sea la variable y del applydforce
 		muelle->body->ApplyForceToCenter({ 0,spring_force }, true);
@@ -555,13 +571,15 @@ update_status ModuleSceneIntro::Update()
 		}
 	}	
 	
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP) {
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP && can_play) {
 		spring_force = 0;
 		App->audio->PlayFx(spring_fx);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) {
-		SDL_DestroyTexture(intro);
-		App->player->Enable();
+		App->textures->Unload(intro);
+		can_play = true;
+		App->audio->PlayFx(start_fx);
+		//App->player->Enable();
 	}
 
 
@@ -602,9 +620,9 @@ update_status ModuleSceneIntro::Update()
 	App->renderer->Blit(flipper1, 420, 438, NULL, 1.0f, App->physics->tr_flipper->GetRotation() - 20, 64, 20);
 	App->renderer->Blit(flipper2, 28, 285, NULL, 1.0f, App->physics->tl_flipper->GetRotation() + 32, 18, 18);
 	App->renderer->Blit(intro, 100, 300, NULL);
-	if (App->player->lifes == 0 && flag==true) {
+	/*if (App->player->lifes == 0 && flag==true) {
 		App->renderer->Blit(gameover, 100, 300, NULL);
-	}
+	}*/
 	
 	return UPDATE_CONTINUE;
 }
@@ -614,23 +632,29 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 	int x, y;
 	
 	
-	if (bodyA->body==App->player->ball->body){//bodyB->coll == BALL) {
-		App->audio->PlayFx(bonus_fx);
-	}
-
+	
 	if ((bodyA->body == App->player->ball->body && bodyB->body == lose->body) || (bodyA->coll == BALL && bodyB->coll == DEAD)
 		|| (bodyB->coll == BALL && bodyA->coll == DEAD)) {
-		LOG("ASDASDDSASAD");
+		
 		//App->player->loselife();
 		App->player->lose_life = true;
-		flag = true;
+		
 	}
 	else
-		flag = false;
+		
 	if ((bodyB->coll == BALL && bodyA->coll == BOUNCE)|| (bodyA->coll == BALL && bodyB->coll == BOUNCE)) {
 		LOG("POOOOOOOOOOOOOOOIIIIIIIIIIIIIINTS");
 		App->player->points += 100;
+		App->audio->PlayFx(bounce_fx);
 	}
+
+
+	if((bodyA->coll==BALL && bodyB->coll==WALL)|| (bodyB->coll == BALL && bodyA->coll == WALL)){
+	
+		App->audio->PlayFx(wall_fx);
+	
+	}
+
 	/*if (bodyA->coll == BALL && bodyB->coll == START) {
 		LOG("STAAAAAAAAAAAAAAAAAAAAAART");
 	}*/
