@@ -33,6 +33,7 @@ public:
 	SDL_Texture* spring;
 	SDL_Texture* power;
 	uint bonus_fx;
+	uint spring_fx;
 	p2Point<int> ray;
 	bool ray_on;
 	//bool force = false;

@@ -32,10 +32,11 @@ bool ModuleSceneIntro::Start()
 	spring = App->textures->Load("pinball/muelle.png");
 	flipper1 = App->textures->Load("pinball/flipper.png"); 
 	flipper2 = App->textures->Load("pinball/flipperl.png");
-	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
 	map = App->textures->Load("pinball/SkateparkMap.png");
 	power = App->textures->Load("pinball/Power.png");
 
+	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
+	spring_fx = App->audio->LoadFx("pinball/springfx1.wav");
 
 	//sensor = App->physics->CreateRectangleSensor(SCREEN_WIDTH / 2, SCREEN_HEIGHT, SCREEN_WIDTH, 50);
 
@@ -527,7 +528,7 @@ bool ModuleSceneIntro::CleanUp()
 	App->textures->Unload(map);
 	App->textures->Unload(power);
 	App->textures->Unload(spring);
-
+	
 	return true;
 }
 
@@ -536,7 +537,7 @@ update_status ModuleSceneIntro::Update()
 {
 	currentTime = SDL_GetTicks();
 
-	
+	//http://www.vpforums.org/Tutorials/Sounds/SndLib1.html
 	
 	if(App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
 	{
@@ -552,7 +553,7 @@ update_status ModuleSceneIntro::Update()
 	
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP) {
 		spring_force = 0;
-		
+		App->audio->PlayFx(spring_fx);
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
