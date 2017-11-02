@@ -51,8 +51,10 @@ public:
 	int points = 0;
 	int highscore = 0;
 	PhysBody* ball;
-private:
 	int lifes = 2;
+	
+private:
+	
 	SDL_Texture* circle;
 	b2World* world;
 	b2MouseJoint* mouse_joint;

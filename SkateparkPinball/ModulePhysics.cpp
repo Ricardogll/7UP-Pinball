@@ -401,7 +401,7 @@ PhysBody* ModulePhysics::CreatePolygon(b2Vec2 vertices[], uint num_vecs, float a
 // 
 update_status ModulePhysics::PostUpdate()
 {
-	if(App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		debug = !debug;
 
 	if(!debug)

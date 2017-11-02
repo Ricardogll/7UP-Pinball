@@ -19,7 +19,7 @@ ModulePlayer::~ModulePlayer()
 // Load assets
 bool ModulePlayer::Start()
 {
-
+	
 	circle = App->textures->Load("pinball/ball.png");
 	b2BodyDef bd;
 	ground = App->physics->world->CreateBody(&bd);
@@ -62,6 +62,7 @@ update_status ModulePlayer::Update()
 		App->physics->tr_revolutejoint->GetBodyA()->ApplyAngularImpulse(0.75f, true);
 		
 	}
+	
 	if (App->input->GetKey(SDL_SCANCODE_N) == KEY_DOWN) {
 		lifes = 3;
 		loselife();

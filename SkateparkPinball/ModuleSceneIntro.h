@@ -25,8 +25,8 @@ public:
 
 	PhysBody* sensor;
 	bool sensed;
-
-	
+	SDL_Texture* gameover;
+	SDL_Texture* intro;
 	SDL_Texture* flipper2;
 	SDL_Texture* flipper1;
 	SDL_Texture* map;
@@ -38,6 +38,7 @@ public:
 	bool ray_on;
 	//bool force = false;
 	SDL_Rect maprect;
+	SDL_Rect startrect;
 	PhysBody* muelle;
 	PhysBody* muelle2;
 	uint currentTime = 0;
@@ -47,4 +48,5 @@ public:
 	PhysBody* bounce7;
 	PhysBody* lose;
 	PhysBody* start;
+	bool flag=false;
 };

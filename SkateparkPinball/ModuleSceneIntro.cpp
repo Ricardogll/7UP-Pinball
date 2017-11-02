@@ -17,6 +17,7 @@ ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Modul
 	maprect.y = 0;
 	maprect.w = 596;
 	maprect.h = 945;
+
 }
 
 ModuleSceneIntro::~ModuleSceneIntro()
@@ -27,6 +28,9 @@ bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
+	gameover = App->textures->Load("pinball/gameover.png");
+	intro = App->textures->Load("pinball/start.png");
+	App->player->Disable();
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 	spring = App->textures->Load("pinball/muelle.png");
@@ -555,21 +559,17 @@ update_status ModuleSceneIntro::Update()
 		spring_force = 0;
 		App->audio->PlayFx(spring_fx);
 	}
-
-	if(App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
-	{
-		
+	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN) {
+		SDL_DestroyTexture(intro);
+		App->player->Enable();
 	}
 
-	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
-	{
-		
-	}
 
 
 	// Prepare for raycast ------------------------------------------------------
+	
 	App->renderer->Blit(map, 0, 0, &maprect);
-
+	
 	iPoint mouse;
 	mouse.x = App->input->GetMouseX();
 	mouse.y = App->input->GetMouseY();
@@ -592,7 +592,7 @@ update_status ModuleSceneIntro::Update()
 		if(normal.x != 0.0f)
 			App->renderer->DrawLine(ray.x + destination.x, ray.y + destination.y, ray.x + destination.x + normal.x * 25.0f, ray.y + destination.y + normal.y * 25.0f, 100, 255, 100);
 	}
-
+	
 	int x, y;
 	muelle->GetPosition(x, y);
 	App->renderer->Blit(spring, x, y, NULL, 1.0f, muelle->GetRotation());
@@ -601,7 +601,11 @@ update_status ModuleSceneIntro::Update()
 	App->renderer->Blit(flipper2, 195, 780, NULL, 1.0f, App->physics->dl_flipper->GetRotation(), 18, 19);
 	App->renderer->Blit(flipper1, 420, 438, NULL, 1.0f, App->physics->tr_flipper->GetRotation() - 20, 64, 20);
 	App->renderer->Blit(flipper2, 28, 285, NULL, 1.0f, App->physics->tl_flipper->GetRotation() + 32, 18, 18);
-
+	App->renderer->Blit(intro, 100, 300, NULL);
+	if (App->player->lifes == 0 && flag==true) {
+		App->renderer->Blit(gameover, 100, 300, NULL);
+	}
+	
 	return UPDATE_CONTINUE;
 }
 
@@ -614,13 +618,15 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 		App->audio->PlayFx(bonus_fx);
 	}
 
-	if ((bodyA->body == App->player->ball->body && bodyB->body==lose->body)||(bodyA->coll==BALL && bodyB->coll==DEAD)
+	if ((bodyA->body == App->player->ball->body && bodyB->body == lose->body) || (bodyA->coll == BALL && bodyB->coll == DEAD)
 		|| (bodyB->coll == BALL && bodyA->coll == DEAD)) {
 		LOG("ASDASDDSASAD");
 		//App->player->loselife();
 		App->player->lose_life = true;
+		flag = true;
 	}
-	
+	else
+		flag = false;
 	if ((bodyB->coll == BALL && bodyA->coll == BOUNCE)|| (bodyA->coll == BALL && bodyB->coll == BOUNCE)) {
 		LOG("POOOOOOOOOOOOOOOIIIIIIIIIIIIIINTS");
 		App->player->points += 100;
