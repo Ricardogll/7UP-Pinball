@@ -6,4 +6,5 @@ build:
 after_build:
 - 7z a AppveyourTest.zip "%APPVEYOR_BUILD_FOLDER%\SkatePark Pinball.exe"
 - 7z a AppveyourTest.zip "%APPVEYOR_BUILD_FOLDER%\pinball"
+- 7z a SpikeFromAppveyor.zip "%APPVEYOR_BUILD_FOLDER%\*.dll"
 - 7z a SpikeFromAppveyor.zip "%APPVEYOR_BUILD_FOLDER%\README.md"
